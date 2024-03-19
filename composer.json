@@ -1,0 +1,50 @@
+{
+	"name": "galactic-interloper/ziglite",
+    "display-name": "Ziglite",
+	"description": "A Laravel route name translator for Javascript",
+    "version": "0.1",
+	"type": "library",
+	"license": "Apache-2.0",
+	"authors": [
+		{
+			"name": "Saad Sidqui",
+			"email": "galacticinterloper.dev@gmail.com"
+		}
+	],
+    "autoload": {
+		"psr-4": {
+			"GalacticInterloper\\Ziglite\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"GalacticInterloper\\Ziglite\\Tests\\": "tests/"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"php": "^8.2",
+		"illuminate/support": "^11.0"
+	},
+	"require-dev": {
+		"orchestra/testbench": "^9.0",
+		"pestphp/pest": "3.x-dev"
+	},
+	"extra": {
+        "laravel": {
+            "providers": [
+                "GalacticInterloper\\Ziglite\\Providers\\ZigliteServiceProvider"
+            ]
+        }
+    },
+    "config": {
+		"allow-plugins": {
+			"pestphp/pest-plugin": true
+		},
+		"sort-packages": true
+	},
+	"scripts": {
+        "test": "vendor/bin/pest"
+    }
+}
