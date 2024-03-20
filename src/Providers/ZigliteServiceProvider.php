@@ -2,8 +2,8 @@
 
 namespace GalacticInterloper\Ziglite\Providers;
 
+use GalacticInterloper\Ziglite\Helpers\RoutesManifest;
 use GalacticInterloper\Ziglite\Services\PackageService;
-use GalacticInterloper\Ziglite\Services\RoutingService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
@@ -14,7 +14,6 @@ final class ZigliteServiceProvider extends ServiceProvider {
     public function __construct(
         Application $app,
         private PackageService $package = new PackageService(),
-        private RoutingService $routing = new RoutingService(),
     ) {
         parent::__construct($app);
     }
@@ -27,8 +26,8 @@ final class ZigliteServiceProvider extends ServiceProvider {
     }
 
     public function register(): void {
-        $this->bindServices();
         $this->mergeConfigFrom($this->package->configFile(), $this->package->name());
+        $this->bindServices();
     }
 
     public function boot(): void {
@@ -37,27 +36,31 @@ final class ZigliteServiceProvider extends ServiceProvider {
             $this->registerPublishing();
         }
 
+        $this->setupBladeDirective();
+    }
+
+    public function setupBladeDirective(string $name = null): void {
         if ($this->app->resolved('blade.compiler')) {
-            $this->routing
-                ->registerBladeDirectives($this->app['blade.compiler']);
+            $this->registerBladeDirective($this->app['blade.compiler'], $name);
         } else {
             $this->app->afterResolving(
                 'blade.compiler',
-                function (BladeCompiler $blade) {
-                    $this->routing->registerBladeDirectives($blade);
-                }
+                fn (BladeCompiler $blade) => $this->registerBladeDirective($blade, $name)
             );
         }
     }
 
-    private function bindServices(): void {
-        $this->app->singleton(RoutingService::class, fn() => $this->routing);
+    private function bindServices() : void {
+        $this->app->singleton(PackageService::class, fn () => $this->package);
     }
 
     private function registerCommands(): void {
         AboutCommand::add(
             $this->package->displayName(),
-            fn () => ['Version' => $this->package->version()]
+            fn () => [
+                'Version' => $this->package->version(),
+                'Webpage' => $this->package->website(),
+            ],
         );
     }
 
@@ -66,5 +69,16 @@ final class ZigliteServiceProvider extends ServiceProvider {
             $this->package->configFile() => config_path($this->package->name() . '.php'),
             'config'
         ]);
+    }
+
+    private function registerBladeDirective(BladeCompiler $blade, string $directive = null): void {
+        $directive = $directive ?? $this->package->name();
+        $class = RoutesManifest::class;
+        $blade->directive(
+            $directive,
+            function (string $expr = '') use ($class) {
+                return "<?php echo (new \{$class}({$expr}))->makeScriptTag(); ?>";
+            }
+        );
     }
 }

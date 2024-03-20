@@ -10,11 +10,12 @@ final class PackageService {
 
     public function __construct() {
         $this->composer = json_decode(
-            file_get_contents($this->rootDir('conposer.json')),
+            file_get_contents($this->rootDir('composer.json')),
             true, 512, JSON_THROW_ON_ERROR
         );
 
         $this->name = explode('/', $this->composer['name'])[1];
+
     }
 
     public function version(): string {
@@ -23,6 +24,10 @@ final class PackageService {
 
     public function name(): string {
         return $this->name;
+    }
+
+    public function website(): string {
+        return $this->composer['homepage'] ?? '';
     }
 
     public function displayName(): string {

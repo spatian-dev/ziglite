@@ -16,9 +16,7 @@ composer.lock
 
 phpunit.xml
 .phpunit.result.cache
-
 .php-cs-fixer.cache
-
 phpstan.neon
 
 

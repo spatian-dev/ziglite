@@ -5,29 +5,40 @@ namespace GalacticInterloper\Ziglite\Helpers;
 use GalacticInterloper\Ziglite\Services\PackageService;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Router;
-use Illuminate\Routing\RouteUrlGenerator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
 use JsonSerializable;
 
 final class RoutesManifest implements JsonSerializable {
     private const UNFILTERED = 'default';
 
     protected static array $cache = [];
-
+    private string $nonce;
     private string $base;
     private array $filters;
     private string $filters_hash;
     private array $routes;
+    private array $defaults;
 
-    public function __construct(array $filters = [], string $base = null) {
+    public function __construct(
+        array|string $filters = [], string $nonce = '', string $base = null
+    ) {
+        $url = App::make('url');
+
+        $this->nonce = $nonce;
+
         $base = Str::of($base);
-        $this->base = rtrim($base->isEmpty() ? url('/') : $base, '/');
+        $this->base = rtrim($base->isEmpty() ? $url->to('/') : $base, '/');
 
-        $this->processFilters($filters);
+        $this->processFilters(Arr::wrap($filters));
+
+        $this->defaults = method_exists($url, 'getDefaultParameters') ?
+            $url->getDefaultParameters() : [];
 
         if (!array_key_exists($this->filters_hash, self::$cache))
             $this->routes = $this->applyFilters();
+
+        $this->routes = self::$cache[$this->filters_hash];
     }
 
     public static function clearRoutes() {
@@ -39,13 +50,10 @@ final class RoutesManifest implements JsonSerializable {
     }
 
     public function toArray(): array {
-        $url = App::make('url');
-        /** @var URL $url */
-
         return [
             'base' => $this->base,
             'routes' => $this->routes,
-            'defaults' => $url->getDefaultParameters() ?? [],
+            'defaults' => $this->defaults ?? [],
             //'dont_encode' => (new RouteUrlGenerator(null, null))->dontEncode,
         ];
     }
@@ -54,15 +62,14 @@ final class RoutesManifest implements JsonSerializable {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR | $options);
     }
 
-    public function makeScriptTag(string $nonce = '', string $name = null): string {
+    public function makeScriptTag(string $name = null): string {
         $name = $name ?? App::make(PackageService::class)->name();
-        return <<<JS
-            <script type="text/javascript" {$nonce}>
-                const {$name} = {$this->toJson()};
+        return <<<HTML
+            <script type="text/javascript" {$this->nonce}>
                 if (!Object.hasOwn(window, '{$name}'))
-                    window.{$name} = {$name};
+                    window.{$name} = {$this->toJson()};
             </script>
-        JS;
+        HTML;
     }
 
     private function processFilters(array $filters): void {
@@ -110,14 +117,26 @@ final class RoutesManifest implements JsonSerializable {
         /** @var Router $router */
 
         $routes = [];
+        $fallback = [];
         foreach ($router->getRoutes()->getRoutesByName() as $name => $route) {
-            if ($route->isFallback || Str::of($name)->isEmpty())
+            if (Str::of($name)->isEmpty())
                 continue;
+
+            if ($route->isFallback) {
+                $fallback[$name] = $route;
+                continue;
+            }
 
             $routes[$name] = [
                 'uri' => $route->uri,
-                //'methods' => $route->methods(),
-                //'expects' => $route->parameterNames() ?? [],
+                'domain' => $route->domain(),
+                'wheres' => $route->wheres,
+            ];
+        }
+
+        foreach ($fallback as $name => $route) {
+            $routes[$name] = [
+                'uri' => $route->uri,
                 'domain' => $route->domain(),
                 'wheres' => $route->wheres,
             ];

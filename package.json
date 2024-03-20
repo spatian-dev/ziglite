@@ -39,6 +39,8 @@
     "unpkg": "./dist/ziglite.umd.js",
     "scripts": {
         "build": "microbundle",
-        "dev": "microbundle watch"
+        "dev": "microbundle watch",
+
+        "test": "./vendor/bin/pest"
     }
 }
