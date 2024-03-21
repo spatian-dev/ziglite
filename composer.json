@@ -3,7 +3,7 @@
     "display-name": "Ziglite",
 	"description": "A Laravel route name translator for Javascript",
     "version": "0.1",
-    "homepage": "https://ziglite.sidqui.ma",
+    "homepage": "https://ziglite.galacticinterloper.dev",
 	"type": "library",
 	"license": "Apache-2.0",
 	"authors": [
@@ -22,6 +22,15 @@
 			"GalacticInterloper\\Ziglite\\Tests\\": "tests/"
 		}
 	},
+    "keywords": [
+        "ziglite",
+        "laravel",
+        "named",
+        "routing",
+        "routes",
+        "laravel-package",
+        "package"
+    ],
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
