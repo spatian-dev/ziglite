@@ -53,11 +53,14 @@ final class RoutesManifest implements JsonSerializable {
         return [
             'base' => $this->base,
             'routes' => $this->routes,
-            'defaults' => $this->defaults ?? [],
+            'defaults' => $this->defaults,
             //'dont_encode' => (new RouteUrlGenerator(null, null))->dontEncode,
         ];
     }
 
+    /**
+     * @throws \JsonException
+     * */
     public function toJson(int $options = 0): string {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR | $options);
     }

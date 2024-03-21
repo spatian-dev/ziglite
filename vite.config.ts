@@ -7,6 +7,12 @@ import dts from 'vite-plugin-dts';
 const root_path = (p?: string): string => path.join(__dirname, p ?? '');
 const js_path = (p?: string): string => path.join(root_path('js'), p ?? '');
 
+const common_exclude = [
+    'node_modules/**',
+    'vendor/**',
+    'dist/**',
+];
+
 export default defineConfig({
     plugins: [
         dts({
@@ -19,6 +25,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': js_path(''),
+            'tests': root_path('test'),
         },
     },
     build: {
@@ -33,8 +40,15 @@ export default defineConfig({
     },
     test: {
         include: [
-            './js/**/*.{test,spec}.?(c|m)[jt]s?(x)',
-            './tests/js/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+            '**/tests/js/**/*.test.ts',
         ],
+        exclude: common_exclude,
+        typecheck: {
+            enabled: true,
+            include: [
+                '**/tests/js/**/*.test-d.ts',
+            ],
+            exclude: common_exclude,
+        },
     },
 });

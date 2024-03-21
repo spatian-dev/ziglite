@@ -15,6 +15,9 @@
             "@/*": [
                 "./js/*"
             ],
+            "tests/*": [
+                "./tests/js/*"
+            ],
         },
         /* Bundler mode */
         "moduleResolution": "bundler",
@@ -28,15 +31,15 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true,
+        "allowJs": false,
     },
     "include": [
         "js/**/*",
         "tests/js/**/*",
     ],
     "exclude": [
-        "node_modules/**/*",
-        "vendor/**/*",
-        "dist/**/*",
-        "tests/js/fixtures/**/*",
+        "node_modules/**",
+        "vendor/**",
+        "dist/**",
     ]
 }

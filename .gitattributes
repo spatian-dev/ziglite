@@ -15,7 +15,7 @@
 /eslint.config.js   export-ignore
 /phpunit.xml.dist   export-ignore
 /tsconfig.json      export-ignore
-/vite.config.js     export-ignore
+/vite.config.ts     export-ignore
 
 /docs               export-ignore
 /.php_cs.dist.php   export-ignore

@@ -69,7 +69,7 @@ export class Router {
         const route = this.#getRoute(name);
         const { substituted, template } = route.compile(params);
 
-        const query = ((params._query as unknown) as RouteParameters) ?? {};
+        const query = params._query ?? {};
         delete params._query;
 
         for (const key of Object.keys(params)) {
