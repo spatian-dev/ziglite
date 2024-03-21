@@ -1,0 +1,42 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+        ],
+        "types": [
+            "vite/client",
+            "node",
+        ],
+        "skipLibCheck": true,
+        "paths": {
+            "@/*": [
+                "./js/*"
+            ],
+        },
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "noEmit": true,
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
+    },
+    "include": [
+        "js/**/*",
+        "tests/js/**/*",
+    ],
+    "exclude": [
+        "node_modules/**/*",
+        "vendor/**/*",
+        "dist/**/*",
+        "tests/js/fixtures/**/*",
+    ]
+}

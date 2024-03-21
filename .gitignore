@@ -1,7 +1,6 @@
 .vite/
+vite.config.ts.timestamp*
 node_modules/
-dist
-dist-ssr
 *.local
 npm-debug.log*
 yarn-debug.log*

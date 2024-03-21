@@ -1,0 +1,3 @@
+yarn run clean
+yarn run test:all
+yarn run build

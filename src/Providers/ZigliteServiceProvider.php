@@ -36,7 +36,8 @@ final class ZigliteServiceProvider extends ServiceProvider {
             $this->registerPublishing();
         }
 
-        $this->setupBladeDirective();
+        if ($this->package->config('blade.directives.register_default', true))
+            $this->setupBladeDirective();
     }
 
     public function setupBladeDirective(string $name = null): void {

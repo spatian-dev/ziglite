@@ -50,7 +50,7 @@ final class PackageService {
         return Str::upper($this->name() . '_' . $name);
     }
 
-    public function config(string $name): string {
-        return config($this->name() . '.' . $name);
+    public function config(string $name, mixed $default = null): string {
+        return config($this->name() . '.' . $name, $default);
     }
 }

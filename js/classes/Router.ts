@@ -1,10 +1,13 @@
-import { Route } from './Route.js';
-import { stringify } from 'qs';
-import { ensureNoTrailingSlash } from './utils.js';
+import type { RouteParameters } from "@/types/Route.types";
+import type { RouterConfiguration } from "@/types/Router.types";
+
+import { ensureNoTrailingSlash } from "@/helpers/utils";
+import { Route } from "@/classes/Route";
+import { stringify } from "qs";
 
 const defaultQsConfig = {
     addQueryPrefix: true,
-    encoder: (value, defaultEncoder, charset, type) => {
+    encoder: (value: unknown, defaultEncoder: CallableFunction, _charset: string, type: string) => {
         if ((type === 'value') && typeof value === 'boolean')
             return value ? 1 : 0;
 
@@ -14,43 +17,31 @@ const defaultQsConfig = {
     skipNulls: true,
 };
 
-const defaultConfig = {
-    base: '/',
+const defaultConfig: RouterConfiguration = {
     absolute: false,
     strict: false,
     qsConfig: defaultQsConfig,
 
-    defaults: [],
-    routes: [],
+    base: '/',
+    defaults: {},
+    routes: {},
 };
 
 /**
  * @classdesc Routing helper.
  */
 export class Router {
-    /** @type {Object} */
     #config = defaultConfig;
 
-    /**
-     * @class
-     * @param {Object} config
-     */
-    constructor(config) {
+    constructor(config?: RouterConfiguration) {
         this.config = config;
     }
 
-    /**
-     * @readonly
-     * @returns {Object}
-     */
-    get config() {
+    get config(): RouterConfiguration {
         return this.#config;
     }
 
-    /**
-     * @param {Object} value
-     */
-    set config(value) {
+    set config(value: RouterConfiguration | undefined) {
         this.#config = {
             ...this.#config,
             ...value,
@@ -62,40 +53,23 @@ export class Router {
         };
     }
 
-    /**
-     * @readonly
-     * @returns {String}
-     */
-    get base() {
+    get base(): string {
         return ensureNoTrailingSlash(this.#config.base);
     }
 
-    /**
-     * @readonly
-     * @returns {String}
-     */
-    get origin() {
+    get origin(): string {
         return this.#config.absolute ? this.base : '';
     }
 
-    /**
-     * @param {String} name
-     * @returns {Boolean}
-     */
-    has(name) {
+    has(name: string): boolean {
         return Object.hasOwn(this.#config.routes, name);
     }
 
-    /**
-     * @param {String} name
-     * @param {Object} params
-     * @returns {String}
-     */
-    compile(name, params) {
+    compile(name: string, params: RouteParameters) {
         const route = this.#getRoute(name);
         const { substituted, template } = route.compile(params);
 
-        const query = params._query ?? {};
+        const query = ((params._query as unknown) as RouteParameters) ?? {};
         delete params._query;
 
         for (const key of Object.keys(params)) {
@@ -111,11 +85,7 @@ export class Router {
         return template + stringify(query, this.#config.qsConfig);
     }
 
-    /**
-     * @param {String} name
-     * @returns {Route}
-     */
-    #getRoute(name) {
+    #getRoute(name: string): Route {
         if (!this.has(name))
             throw new Error(`No such route "${name}" in the route list`);
         return new Route(name, this.#config.routes[name], this)

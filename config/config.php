@@ -1,3 +1,9 @@
 <?php
 
-return [];
+return [
+    'blade' => [
+        'directives' => [
+            'register_default' => true,
+        ],
+    ],
+];

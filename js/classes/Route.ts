@@ -1,72 +1,53 @@
-import { ensureNoTrailingSlash, isBlank } from "./utils.js";
-
-/** @typedef {import("./Router.js").Router} Router */
+import { ensureNoTrailingSlash, isBlank } from "@/helpers/utils.js";
+import { RouteCompilationResult, RouteDetails, RouteParameters, RouteTokens } from "@/types/Route.types";
+import type { Router } from "@/classes/Router";
 
 /**
  * @classdesc A class representing a route.
  */
 export class Route {
-    /** @type {String} */
-    name;
+    #name: string;
+    #details: RouteDetails;
+    #router: Router;
 
-    /** @type {Object} */
-    details;
-
-    /** @type {Router} */
-    router;
-
-    /**
-     * @class
-     * @param {String} name
-     * @param {Object} details
-     * @param {Router} router
-     */
-    constructor(name, details, router) {
-        this.name = name;
-        this.details = details;
-        this.router = router;
+    constructor(name: string, details: RouteDetails, router: Router) {
+        this.#name = name;
+        this.#details = details;
+        this.#router = router;
     }
 
     /**
      * Retruns the route's origin
-     *
-	 * @readonly
-     * @returns {String}
-	 */
-    get origin() {
-        const hasDomain = !isBlank(this.details.domain);
+     */
+    get origin(): string {
+        const hasDomain = !isBlank(this.#details.domain);
 
         // if route has a domain, always return an absolute origin.
         if (hasDomain) {
-            const scheme = this.router.base.match(/^(http|https):\/\//);
-            return ensureNoTrailingSlash((scheme[0] ?? '') + this.details.domain);
+            const scheme = this.#router.base.match(/^(http|https):\/\//);
+            return ensureNoTrailingSlash((scheme?.[0] ?? '') + this.#details.domain);
         }
 
-        if (!this.router.config.absolute)
+        if (!this.#router.config.absolute)
             return '';
 
         // no domain, return absolute origin.
-        return ensureNoTrailingSlash(this.router.origin);
+        return ensureNoTrailingSlash(this.#router.origin);
     }
 
     /**
-	 * Retruns the route's template
-     * @readonly
-     * @returns {String}
-	 */
-    get template() {
-        const template = ensureNoTrailingSlash(`${this.origin}/${this.details.uri}`);
+     * Retruns the route's template
+     */
+    get template(): string {
+        const template = ensureNoTrailingSlash(`${this.origin}/${this.#details.uri}`);
         return isBlank(template) ? '/' : template;
     }
 
     /**
-	 * Retruns the route's template
-     *
-     * @readonly
-     * @returns {Object}
-	 */
-    get expects() {
-        const tokens = {};
+     * Retruns the route's template expected parameters
+     */
+    get expects(): RouteTokens {
+        const tokens: RouteTokens = {};
         const matches = this.template.match(/{\w+\??}/g) ?? [];
         for (const m of matches) {
             const name = m.replace(/\W/g, '');
@@ -80,35 +61,32 @@ export class Route {
 
     /**
      * Return the compiled URI for this route, along with an array of substituted tokens.
-     *
-     * @param {Object} params
-     * @return {{substituted: Array<String>, template: String}}
-     *      The compiled URI and an array of substituted tokens
      */
-    compile(params) {
-        if (this.expects.length < 1)
-            return this.template;
+    compile(params: RouteParameters): RouteCompilationResult {
+        const substituted = new Array<string>();
 
-        const substituted = [];
+        if (Object.keys(this.expects).length < 1)
+            return { substituted, template: this.template };
+
         let template = this.template;
 
         for (const token of Object.keys(this.expects)) {
             const optional = this.expects[token]
-            const repl = params?.[token] ?? this.router.config.defaults?.[token] ?? '';
+            const repl = params?.[token] ?? this.#router.config.defaults?.[token] ?? '';
 
             if (!optional) {
                 if (isBlank(repl)) {
                     throw new Error(
-                        `Missing required parameter "${token}" for route "${this.name}"`
+                        `Missing required parameter "${token}" for route "${this.#name}"`
                     );
                 }
 
-                if (Object.hasOwn(this.details.wheres, token)) {
-                    const where = this.details.wheres[token];
+                if (Object.hasOwn(this.#details.wheres, token)) {
+                    const where = this.#details.wheres[token];
                     const matches = new RegExp(`^${where}$`).test(repl);
                     if (!matches) {
                         throw new Error(
-                            `Parameter "${token}" for route "${this.name}" ` +
+                            `Parameter "${token}" for route "${this.#name}" ` +
                             `does not match format "${where}"`
                         );
                     }
@@ -131,8 +109,8 @@ export class Route {
                  */
                 if (/\/|%2F/g.test(encoded)) {
                     const message = `Character "/" or sequence "%2F" in parameter "${token}" for ` +
-                        `route "${this.name}" might cause routing issues.`;
-                    if (this.router.config.strict) {
+                        `route "${this.#name}" might cause routing issues.`;
+                    if (this.#router.config.strict) {
                         throw new Error(
                             message +
                             '\n\tAn error was thrown because you enabled strict mode.\n'
@@ -141,6 +119,6 @@ export class Route {
                 }
             }
         }
-        return {substituted, template};
+        return { substituted, template };
     }
 }
