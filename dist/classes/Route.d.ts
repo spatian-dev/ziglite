@@ -1,4 +1,4 @@
-import { RouteCompilationResult, RouteDetails, RouteParameters, RouteTokens } from '../types/Route.types';
+import type { RouteCompilationResult, RouteDetails, RouteParametersWithQuery, RouteTokens } from '../types/Route.types';
 import type { Router } from './Router';
 /**
  * @classdesc A class representing a route.
@@ -21,5 +21,5 @@ export declare class Route {
     /**
      * Return the compiled URI for this route, along with an array of substituted tokens.
      */
-    compile(params: RouteParameters): RouteCompilationResult;
+    compile(params: RouteParametersWithQuery): RouteCompilationResult;
 }

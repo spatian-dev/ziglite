@@ -1,13 +1,17 @@
-export type RouteDetails = {
+export type RouteTokens = Record<string, boolean>;
+type RouteParameterValue = string | number | boolean;
+export type RouteParameters = Record<string, RouteParameterValue>;
+type RouteQueryParameters = {
+    _query?: RouteParameters;
+};
+export type RouteParametersWithQuery = RouteParameters & RouteQueryParameters;
+export interface RouteDetails {
     uri: string;
     domain: string | null;
-    wheres: Record<string, string>;
-};
-export type RouteTokens = Record<string, boolean>;
-export type RouteParameters = {
-    _query?: Record<string, string>;
-} & Record<string, string>;
+    wheres: RouteParameters;
+}
 export type RouteCompilationResult = {
     substituted: Array<string>;
-    template: string;
+    url: string;
 };
+export {};

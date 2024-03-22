@@ -1,5 +1,7 @@
-import { RouteDetails } from "@/types/Route.types";
-import { BooleanOptional, IStringifyOptions } from "qs";
+import type { RouteDetails, RouteParameters } from "@/types/Route.types";
+import type { BooleanOptional, IStringifyOptions } from "qs";
+
+type RouteList = Record<string, RouteDetails>;
 
 export type RouterConfiguration = {
     absolute: boolean,
@@ -7,6 +9,6 @@ export type RouterConfiguration = {
     qsConfig: IStringifyOptions<BooleanOptional>,
 
     base: string,
-    defaults: Record<string, string>,
-    routes: Record<string, RouteDetails>,
+    defaults: RouteParameters,
+    routes: RouteList,
 };

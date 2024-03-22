@@ -1,4 +1,4 @@
-import type { RouteParameters } from "@/types/Route.types";
+import type { RouteParametersWithQuery } from "@/types/Route.types";
 import type { RouterConfiguration } from "@/types/Router.types";
 
 import { ensureNoTrailingSlash } from "@/helpers/utils";
@@ -33,7 +33,7 @@ const defaultConfig: RouterConfiguration = {
 export class Router {
     #config = defaultConfig;
 
-    constructor(config?: RouterConfiguration) {
+    constructor(config?: Partial<RouterConfiguration>) {
         this.config = config;
     }
 
@@ -41,10 +41,10 @@ export class Router {
         return this.#config;
     }
 
-    set config(value: RouterConfiguration | undefined) {
+    set config(value: Partial<RouterConfiguration>|undefined) {
         this.#config = {
             ...this.#config,
-            ...value,
+            ...value ?? {},
 
             qsConfig: {
                 ...defaultQsConfig,
@@ -65,9 +65,9 @@ export class Router {
         return Object.hasOwn(this.#config.routes, name);
     }
 
-    compile(name: string, params: RouteParameters) {
+    compile(name: string, params: RouteParametersWithQuery): string {
         const route = this.#getRoute(name);
-        const { substituted, template } = route.compile(params);
+        const { substituted, url } = route.compile(params);
 
         const query = params._query ?? {};
         delete params._query;
@@ -82,7 +82,7 @@ export class Router {
             query[key] = params[key];
         }
 
-        return template + stringify(query, this.#config.qsConfig);
+        return url + stringify(query, this.#config.qsConfig);
     }
 
     #getRoute(name: string): Route {

@@ -1,6 +1,9 @@
-import { ensureNoTrailingSlash, isBlank } from "@/helpers/utils.js";
-import { RouteCompilationResult, RouteDetails, RouteParameters, RouteTokens } from "@/types/Route.types";
+import type {
+    RouteCompilationResult, RouteDetails, RouteParametersWithQuery, RouteTokens
+} from "@/types/Route.types";
 import type { Router } from "@/classes/Router";
+
+import { ensureNoTrailingSlash, isBlank } from "@/helpers/utils.js";
 
 /**
  * @classdesc A class representing a route.
@@ -62,20 +65,25 @@ export class Route {
     /**
      * Return the compiled URI for this route, along with an array of substituted tokens.
      */
-    compile(params: RouteParameters): RouteCompilationResult {
+    compile(params: RouteParametersWithQuery): RouteCompilationResult {
         const substituted = new Array<string>();
 
         if (Object.keys(this.expects).length < 1)
-            return { substituted, template: this.template };
+            return { substituted, url: this.template };
 
         let template = this.template;
 
         for (const token of Object.keys(this.expects)) {
             const optional = this.expects[token]
-            const repl = params?.[token] ?? this.#router.config.defaults?.[token] ?? '';
+
+            let paramValue = params?.[token] ?? this.#router.config.defaults?.[token] ?? '';
+            if (typeof paramValue == 'boolean') {
+                paramValue = paramValue ? 1 : 0;
+            }
+            const replacement = String(paramValue);
 
             if (!optional) {
-                if (isBlank(repl)) {
+                if (isBlank(replacement)) {
                     throw new Error(
                         `Missing required parameter "${token}" for route "${this.#name}"`
                     );
@@ -83,7 +91,7 @@ export class Route {
 
                 if (Object.hasOwn(this.#details.wheres, token)) {
                     const where = this.#details.wheres[token];
-                    const matches = new RegExp(`^${where}$`).test(repl);
+                    const matches = new RegExp(`^${where}$`).test(replacement);
                     if (!matches) {
                         throw new Error(
                             `Parameter "${token}" for route "${this.#name}" ` +
@@ -95,7 +103,7 @@ export class Route {
 
             const re = new RegExp(`{${token}\\??}`, 'g');
             if (re.test(template)) {
-                const encoded = encodeURIComponent(repl);
+                const encoded = encodeURIComponent(replacement);
                 template = ensureNoTrailingSlash(template.replace(re, encoded));
                 substituted.push(token);
 
@@ -119,6 +127,6 @@ export class Route {
                 }
             }
         }
-        return { substituted, template };
+        return { substituted, url: template };
     }
 }
