@@ -1,11 +1,13 @@
 import type { RouteParametersWithQuery } from "@/types/Route.types";
-import type { RouterConfiguration } from "@/types/Router.types";
-
-import { ensureNoTrailingSlash } from "@/helpers/utils";
+import {
+    type RouterConfiguration,
+    RouterConfigurationFromJsonSchema, RouterConfigurationFromJson
+} from "@/types/Router.types";
+import { ensureNoTrailingSlash, isString } from "@/helpers/utils";
 import { Route } from "@/classes/Route";
 import { stringify } from "qs";
 
-const defaultQsConfig = {
+const defaultQsConfig = () => ({
     addQueryPrefix: true,
     encoder: (value: unknown, defaultEncoder: CallableFunction, _charset: string, type: string) => {
         if ((type === 'value') && typeof value === 'boolean')
@@ -15,39 +17,47 @@ const defaultQsConfig = {
     },
     encodeValuesOnly: true,
     skipNulls: true,
-};
+});
 
-const defaultConfig: RouterConfiguration = {
+export const defaultConfig = () => ({
     absolute: false,
     strict: false,
-    qsConfig: defaultQsConfig,
+    qsConfig: defaultQsConfig(),
 
     base: '/',
     defaults: {},
     routes: {},
+});
+
+const parseRouterConfig = (config: string): RouterConfigurationFromJson => {
+    return RouterConfigurationFromJsonSchema.parse(JSON.parse(config));
 };
 
 /**
  * @classdesc Routing helper.
  */
 export class Router {
-    #config = defaultConfig;
+    #config: RouterConfiguration = defaultConfig();
 
     constructor(config?: Partial<RouterConfiguration>) {
-        this.config = config;
+        this.config = config ?? {};
     }
 
     get config(): RouterConfiguration {
         return this.#config;
     }
 
-    set config(value: Partial<RouterConfiguration>|undefined) {
+    set config(value: string | Partial<RouterConfiguration>) {
+        value = isString(value) ?
+            parseRouterConfig(value as string) :
+            (value as Partial<RouterConfiguration>);
+
         this.#config = {
             ...this.#config,
-            ...value ?? {},
+            ...value,
 
             qsConfig: {
-                ...defaultQsConfig,
+                ...defaultQsConfig(),
                 ... (value?.qsConfig ?? {}),
             },
         };

@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import { ensureNoTrailingSlash, ensureTrailingSlash, isBlank, isString } from '@/helpers/utils';
 
-describe.concurrent('Utilities', () => {
-    describe.concurrent('isString()', () => {
+describe('Utilities', () => {
+    describe('isString()', () => {
         test('Returns true when provided with a native string', async () => {
             expect(isString('abcd')).toBe(true);
             expect(isString(String('abcd'))).toBe(true);
@@ -15,7 +15,7 @@ describe.concurrent('Utilities', () => {
         });
     });
 
-    describe.concurrent('isBlank()', () => {
+    describe('isBlank()', () => {
         test('Returns true when provided with a blank-ish value', async () => {
             expect(isBlank('')).toBe(true);
             expect(isBlank('    ')).toBe(true);
@@ -35,7 +35,7 @@ describe.concurrent('Utilities', () => {
         });
     });
 
-    describe.concurrent('ensureTrailingSlash()', () => {
+    describe('ensureTrailingSlash()', () => {
         test('Adds a trailing slash when it is missing', async () => {
             expect(ensureTrailingSlash('')).toBe('/');
             expect(ensureTrailingSlash('test.url')).toBe('test.url/');
@@ -49,7 +49,7 @@ describe.concurrent('Utilities', () => {
         });
     });
 
-    describe.concurrent('ensureNoTrailingSlash()', () => {
+    describe('ensureNoTrailingSlash()', () => {
         test('Removes a trailing slash when it is present', async () => {
             expect(ensureNoTrailingSlash('/')).toBe('');
             expect(ensureNoTrailingSlash('test.url/')).toBe('test.url');

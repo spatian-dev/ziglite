@@ -1,22 +1,29 @@
-export type RouteTokens = Record<string, boolean>;
+import { z } from "zod";
 
-type RouteParameterValue = string | number | boolean;
+const RouteTokensSchema = z.record(z.string(), z.boolean());
+const RouteParameterValueSchema = z.union([z.string(), z.number(), z.boolean()]);
+export const RouteParametersSchema = z.record(
+    z.string(),
+    RouteParameterValueSchema,
+);
+const RouteQueryParametersSchema = z.object({
+    _query: RouteParametersSchema.optional(),
+});
+const RouteParametersWithQuerySchema = z.intersection(
+    RouteParametersSchema, RouteQueryParametersSchema
+);
+export const RouteDetailsSchema = z.object({
+    uri: z.string(),
+    domain: z.string().nullable(),
+    wheres: RouteParametersSchema,
+});
 
-export type RouteParameters = Record<string, RouteParameterValue>;
+const RouteCompilationResultSchema = z.object({
+    substituted: z.array(z.string()),
+    url: z.string(),
+});
 
-type RouteQueryParameters = {
-    _query?: RouteParameters,
-};
-
-export type RouteParametersWithQuery = RouteParameters & RouteQueryParameters;
-
-export interface RouteDetails {
-    uri: string,
-    domain: string|null,
-    wheres: RouteParameters,
-};
-
-export type RouteCompilationResult = {
-    substituted: Array<string>,
-    url: string,
-}
+export type RouteTokens = z.infer<typeof RouteTokensSchema>;
+export type RouteParametersWithQuery = z.infer<typeof RouteParametersWithQuerySchema>;
+export type RouteDetails = z.infer<typeof RouteDetailsSchema>;
+export type RouteCompilationResult = z.infer<typeof RouteCompilationResultSchema>;

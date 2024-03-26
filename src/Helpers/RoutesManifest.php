@@ -8,6 +8,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use JsonSerializable;
+use stdClass;
 
 final class RoutesManifest implements JsonSerializable {
     private const UNFILTERED = 'default';
@@ -21,7 +22,9 @@ final class RoutesManifest implements JsonSerializable {
     private array $defaults;
 
     public function __construct(
-        array|string $filters = [], string $nonce = '', string $base = null
+        array|string $filters = [],
+        string $nonce = '',
+        string $base = null
     ) {
         $url = App::make('url');
 
@@ -50,10 +53,11 @@ final class RoutesManifest implements JsonSerializable {
     }
 
     public function toArray(): array {
+        $cls = new stdClass();
         return [
             'base' => $this->base,
-            'routes' => $this->routes,
-            'defaults' => $this->defaults,
+            'routes' => (count($this->routes) > 0) ? $this->routes : $cls,
+            'defaults' => (count($this->defaults) > 0) ? $this->defaults : $cls,
             //'dont_encode' => (new RouteUrlGenerator(null, null))->dontEncode,
         ];
     }
@@ -70,7 +74,7 @@ final class RoutesManifest implements JsonSerializable {
         return <<<HTML
             <script type="text/javascript" {$this->nonce}>
                 if (!Object.hasOwn(window, '{$name}'))
-                    window.{$name} = {$this->toJson()};
+                    window.{$name} = '{$this->toJson()}';
             </script>
         HTML;
     }
@@ -119,6 +123,7 @@ final class RoutesManifest implements JsonSerializable {
         $router = App::make('router');
         /** @var Router $router */
 
+        $cls = new stdClass();
         $routes = [];
         $fallback = [];
         foreach ($router->getRoutes()->getRoutesByName() as $name => $route) {
@@ -133,7 +138,7 @@ final class RoutesManifest implements JsonSerializable {
             $routes[$name] = [
                 'uri' => $route->uri,
                 'domain' => $route->domain(),
-                'wheres' => $route->wheres,
+                'wheres' => (count($route->wheres) > 0) ? $route->wheres : $cls,
             ];
         }
 
@@ -141,7 +146,7 @@ final class RoutesManifest implements JsonSerializable {
             $routes[$name] = [
                 'uri' => $route->uri,
                 'domain' => $route->domain(),
-                'wheres' => $route->wheres,
+                'wheres' => (count($route->wheres) > 0) ? $route->wheres : $cls,
             ];
         }
 

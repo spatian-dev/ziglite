@@ -18,6 +18,7 @@ phpunit.xml
 .php-cs-fixer.cache
 phpstan.neon
 
+*.temp.php
 
 # Editor directories and files
 .vscode/*

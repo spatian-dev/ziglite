@@ -62,10 +62,10 @@ describe("Routes Manifest Generator", function () {
     test('Generates a manifest as an array', function () {
         $manifest = new RoutesManifest();
         expect($manifest->toArray())
-            ->toBe([
+            ->toMatchArray([
                 'base' => url('/'),
-                'routes' => [],
-                'defaults' => [],
+                'routes' => new stdClass(),
+                'defaults' => new stdClass(),
             ]);
     });
 
@@ -74,8 +74,8 @@ describe("Routes Manifest Generator", function () {
         expect($manifest->toJson())
             ->toBe(json_encode([
                 'base' => url('/'),
-                'routes' => [],
-                'defaults' => [],
+                'routes' => new stdClass(),
+                'defaults' => new stdClass(),
             ], JSON_THROW_ON_ERROR));
     });
 
@@ -114,7 +114,7 @@ describe("Routes Manifest Generator", function () {
         $manifest = new RoutesManifest();
         expect($manifest->toArray())
             ->toMatchArray([
-                'routes' => [],
+                'routes' => new stdClass(),
             ]);
     });
 
@@ -129,7 +129,7 @@ describe("Routes Manifest Generator", function () {
                     "home" => [
                         "uri" => "/",
                         "domain" => null,
-                        "wheres" => [],
+                        "wheres" => new stdClass(),
                     ],
                 ],
             ]);
@@ -152,7 +152,7 @@ describe("Routes Manifest Generator", function () {
                 "home" => [
                     "uri" => "/",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "regions.index" => [
                     "uri" => "/",
@@ -167,52 +167,52 @@ describe("Routes Manifest Generator", function () {
                 "users.index" => [
                     "uri" => "users",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.update" => [
                     "uri" => "users/update/{user}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.addresses.index" => [
                     "uri" => "users/addresses",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.addresses.create" => [
                     "uri" => "users/addresses/create",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts" => [
                     "uri" => "posts",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.comments.index" => [
                     "uri" => "posts/{post}/comments",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.comments.import" => [
                     "uri" => "posts/{post}/comments/import",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.archives.purge" => [
                     "uri" => "posts/archives/purge",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.archives.show" => [
                     "uri" => "posts/archives/{post}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.archives.restore" => [
                     "uri" => "posts/archives/restore/{post}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
             ],
         ];
@@ -250,42 +250,42 @@ describe("Routes Manifest Generator", function () {
                 "users.index" => [
                     "uri" => "users",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.create" => [
                     "uri" => "users/create",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.store" => [
                     "uri" => "users/store",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.edit" => [
                     "uri" => "users/edit/{user}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.update" => [
                     "uri" => "users/update/{user}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "users.delete" => [
                     "uri" => "users/delete/{user}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.comments.show" => [
                     "uri" => "posts/{post}/comments/{comment}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "posts.archives.show" => [
                     "uri" => "posts/archives/{post}",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
             ],
         ];
@@ -301,7 +301,7 @@ describe("Routes Manifest Generator", function () {
         Route::getRoutes()->refreshNameLookups();
 
         expect((new RoutesManifest('users.*'))->toArray())
-            ->toBe($manifest);
+            ->toMatchArray($manifest);
     });
 
     test('Caches filtered routes', function () {
@@ -315,7 +315,7 @@ describe("Routes Manifest Generator", function () {
         Route::getRoutes()->refreshNameLookups();
 
         expect((new RoutesManifest($filters))->toArray())
-            ->toBe($manifest);
+            ->toMatchArray($manifest);
     });
 
     test('Sorts fallback routes last', function () {
@@ -335,12 +335,12 @@ describe("Routes Manifest Generator", function () {
                 "home" => [
                     "uri" => "/",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "settings" => [
                     "uri" => "settings",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
                 "fallback" => [
                     "uri" => "{fallbackPlaceholder}",
@@ -375,24 +375,19 @@ describe("Routes Manifest Generator", function () {
         $varname = 'ziglite';
         $tag = (new RoutesManifest('home'))->makeScriptTag($varname);
 
-        $generated = json_decode(
-            Str::beforeLast(Str::after($tag, "window.{$varname} ="), ";\n"),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
-        );
+        $generated = Str::beforeLast(Str::after($tag, "window.{$varname} = '"), "';\n");
 
-        $expected = [
+        $expected = json_encode([
             "base" => url('/'),
             "routes" => [
                 "home" => [
                     "uri" => "/",
                     "domain" => null,
-                    "wheres" => [],
+                    "wheres" => new stdClass(),
                 ],
             ],
-            "defaults" => [],
-        ];
+            "defaults" => new stdClass(),
+        ], JSON_THROW_ON_ERROR);
 
         expect($generated)
             ->toBe($expected);

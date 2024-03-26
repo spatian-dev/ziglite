@@ -25,7 +25,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': js_path(''),
-            'tests': root_path('test'),
+            'tests': root_path('tests/js'),
         },
     },
     build: {
