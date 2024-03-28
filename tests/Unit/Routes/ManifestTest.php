@@ -1,11 +1,13 @@
 <?php
 
-use GalacticInterloper\Ziglite\Helpers\RoutesManifest;
+use GalacticInterloper\Ziglite\Routes\Manifest;
 use GalacticInterloper\Ziglite\Tests\Fixtures\Controllers\NoopController;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 beforeEach(function () {
+    $this->urlGenerator = App::make(UrlGenerator::class);
     $this->defaults = ['foo' => 'bar'];
 
     Route::get('/', $this->noop())->name('home');
@@ -59,14 +61,14 @@ beforeEach(function () {
         });
 
     Route::get('/defaults/{foo}', $this->noop())->name('defaults');
-    url()->defaults($this->defaults);
+    $this->urlGenerator->defaults($this->defaults);
 
     Route::getRoutes()->refreshNameLookups();
 });
 
-describe("Routes Manifest Generator", function () {
+describe("Manifest", function () {
     test('Generates a manifest as an array', function () {
-        $manifest = new RoutesManifest();
+        $manifest = new Manifest();
         expect($manifest->toArray())
             ->toMatchArray([
                 'base' => url('/'),
@@ -76,7 +78,7 @@ describe("Routes Manifest Generator", function () {
     });
 
     test('Generates a manifest as a JSON string', function () {
-        $manifest = new RoutesManifest();
+        $manifest = new Manifest();
         expect($manifest->toJson())
             ->toBe(json_encode([
                 'base' => url('/'),
@@ -86,18 +88,18 @@ describe("Routes Manifest Generator", function () {
     });
 
     test('Serializes to JSON in a response', function () {
-        Route::get('/serialize', fn () => new RoutesManifest('home'))
+        Route::get('/serialize', fn () => new Manifest('home'))
             ->name('serialize');
         Route::getRoutes()->refreshNameLookups();
 
         $response = $this->get(route('serialize'));
         $response->assertSuccessful();
-        expect($response->getContent())->toBe((new RoutesManifest('home'))->toJson());
+        expect($response->getContent())->toBe((new Manifest('home'))->toJson());
     });
 
     test('Uses the correct base when provided', function () {
         $base = 'https://domain.test';
-        $manifest = new RoutesManifest(base: $base);
+        $manifest = new Manifest(base: $base);
         expect($manifest->toArray())
             ->toMatchArray([
                 'base' => $base,
@@ -106,7 +108,7 @@ describe("Routes Manifest Generator", function () {
 
     test('Uses the correct base when none is provided', function () {
         Route::domain('{sub}.domain.test')
-            ->get('/subdomain', fn () => new RoutesManifest('home'))
+            ->get('/subdomain', fn () => new Manifest('home'))
             ->name('subdomain');
         Route::getRoutes()->refreshNameLookups();
 
@@ -117,7 +119,7 @@ describe("Routes Manifest Generator", function () {
     });
 
     test('Includes no routes if no filters are provided', function () {
-        $manifest = new RoutesManifest();
+        $manifest = new Manifest();
         expect($manifest->toArray())
             ->toMatchArray([
                 'routes' => new stdClass(),
@@ -128,7 +130,7 @@ describe("Routes Manifest Generator", function () {
         Route::get('/unnamed', $this->noop());
         Route::getRoutes()->refreshNameLookups();
 
-        $manifest = new RoutesManifest('home');
+        $manifest = new Manifest('home');
         expect($manifest->toArray())
             ->toMatchArray([
                 'routes' => [
@@ -142,7 +144,7 @@ describe("Routes Manifest Generator", function () {
     });
 
     test('Correctly applies inclusion filters', function () {
-        $manifest = new RoutesManifest([
+        $manifest = new Manifest([
             'home',
             'regions.*',
             'users*index',
@@ -228,7 +230,7 @@ describe("Routes Manifest Generator", function () {
     });
 
     test('Correctly applies exclusion filters', function () {
-        $manifest = new RoutesManifest([
+        $manifest = new Manifest([
             'home',
             '!h*me',
             'regions.*',
@@ -301,12 +303,12 @@ describe("Routes Manifest Generator", function () {
     });
 
     test('Caches unfiltered routes', function () {
-        $manifest = (new RoutesManifest('users.*'))->toArray();
+        $manifest = (new Manifest('users.*'))->toArray();
 
         Route::get('/new', $this->noop())->name('new');
         Route::getRoutes()->refreshNameLookups();
 
-        expect((new RoutesManifest('users.*'))->toArray())
+        expect((new Manifest('users.*'))->toArray())
             ->toMatchArray($manifest);
     });
 
@@ -315,12 +317,12 @@ describe("Routes Manifest Generator", function () {
         Route::getRoutes()->refreshNameLookups();
 
         $filters = ['new.*'];
-        $manifest = (new RoutesManifest($filters))->toArray();
+        $manifest = (new Manifest($filters))->toArray();
 
         Route::get('/new/second', $this->noop())->name('new.second');
         Route::getRoutes()->refreshNameLookups();
 
-        expect((new RoutesManifest($filters))->toArray())
+        expect((new Manifest($filters))->toArray())
             ->toMatchArray($manifest);
     });
 
@@ -330,7 +332,7 @@ describe("Routes Manifest Generator", function () {
 
         Route::getRoutes()->refreshNameLookups();
 
-        $manifest = new RoutesManifest([
+        $manifest = new Manifest([
             'home',
             'fallback',
             'settings',
@@ -358,44 +360,5 @@ describe("Routes Manifest Generator", function () {
 
         expect($manifest->toArray())
             ->toMatchArray($expected);
-    });
-
-    test('Include the given nonce in the generated script tag', function () {
-        $nonce = 'pneumonoultramicroscopicsilicovolcanoconiosis';
-        $tag = (new RoutesManifest('home', $nonce))->makeScriptTag();
-
-        expect($tag)
-            ->toContain("<script type=\"text/javascript\" {$nonce}>");
-    });
-
-    test('Makes a script tag with the given variable name', function () {
-        $varname = 'ziglite_test';
-        $tag = (new RoutesManifest('home'))->makeScriptTag($varname);
-
-        expect($tag)
-            ->toContain("if (!Object.hasOwn(window, '{$varname}'))")
-            ->toContain("window.{$varname} =");
-    });
-
-    test('Generated script tag contain the correct routes manifest', function () {
-        $varname = 'ziglite';
-        $tag = (new RoutesManifest('home'))->makeScriptTag($varname);
-
-        $generated = Str::beforeLast(Str::after($tag, "window.{$varname} = '"), "';\n");
-
-        $expected = json_encode([
-            "base" => url('/'),
-            "routes" => [
-                "home" => [
-                    "uri" => "/",
-                    "domain" => null,
-                    "wheres" => new stdClass(),
-                ],
-            ],
-            "defaults" => $this->defaults,
-        ], JSON_THROW_ON_ERROR);
-
-        expect($generated)
-            ->toBe($expected);
     });
 });

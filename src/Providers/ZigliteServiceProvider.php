@@ -2,7 +2,8 @@
 
 namespace GalacticInterloper\Ziglite\Providers;
 
-use GalacticInterloper\Ziglite\Helpers\RoutesManifest;
+use GalacticInterloper\Ziglite\Generators\JavascriptDataTagGenerator;
+use GalacticInterloper\Ziglite\Interfaces\OutputGeneratorInterface;
 use GalacticInterloper\Ziglite\Services\PackageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -40,18 +41,21 @@ final class ZigliteServiceProvider extends ServiceProvider {
             $this->setupBladeDirective();
     }
 
-    public function setupBladeDirective(string $name = null): void {
+    public function setupBladeDirective(
+        string $name = null,
+        OutputGeneratorInterface $generator = null
+    ): void {
         if ($this->app->resolved('blade.compiler')) {
-            $this->registerBladeDirective($this->app['blade.compiler'], $name);
+            $this->registerBladeDirective($this->app['blade.compiler'], $name, $generator);
         } else {
             $this->app->afterResolving(
                 'blade.compiler',
-                fn (BladeCompiler $blade) => $this->registerBladeDirective($blade, $name)
+                fn (BladeCompiler $blade) => $this->registerBladeDirective($blade, $name, $generator)
             );
         }
     }
 
-    private function bindServices() : void {
+    private function bindServices(): void {
         $this->app->singleton(PackageService::class, fn () => $this->package);
     }
 
@@ -72,13 +76,17 @@ final class ZigliteServiceProvider extends ServiceProvider {
         ]);
     }
 
-    private function registerBladeDirective(BladeCompiler $blade, string $directive = null): void {
+    private function registerBladeDirective(
+        BladeCompiler $blade,
+        string $directive = null,
+        OutputGeneratorInterface $generator = null,
+    ): void {
         $directive = $directive ?? $this->package->name();
-        $class = RoutesManifest::class;
+        $class = is_null($generator) ? JavascriptDataTagGenerator::class : $generator::class;
         $blade->directive(
             $directive,
             function (string $expr = '') use ($class) {
-                return "<?php echo (new \{$class}({$expr}))->makeScriptTag(); ?>";
+                return "<?php echo (new \\{$class}())->make({$expr}); ?>";
             }
         );
     }

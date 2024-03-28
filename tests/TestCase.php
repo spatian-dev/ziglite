@@ -3,7 +3,7 @@
 namespace GalacticInterloper\Ziglite\Tests;
 
 use Closure;
-use GalacticInterloper\Ziglite\Helpers\RoutesManifest;
+use GalacticInterloper\Ziglite\Routes\Manifest;
 use GalacticInterloper\Ziglite\Providers\ZigliteServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
@@ -13,7 +13,7 @@ class TestCase extends OrchestraTestCase {
     }
 
     protected function tearDown(): void {
-        RoutesManifest::clearRoutes();
+        Manifest::clearRoutes();
         parent::tearDown();
     }
 

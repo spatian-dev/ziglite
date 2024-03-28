@@ -1,8 +1,7 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Helpers;
+namespace GalacticInterloper\Ziglite\Routes;
 
-use GalacticInterloper\Ziglite\Services\PackageService;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
@@ -10,11 +9,10 @@ use Illuminate\Support\Facades\App;
 use JsonSerializable;
 use stdClass;
 
-final class RoutesManifest implements JsonSerializable {
+final class Manifest implements JsonSerializable {
     private const UNFILTERED = 'default';
 
     protected static array $cache = [];
-    private string $nonce;
     private string $base;
     private array $filters;
     private string $filters_hash;
@@ -23,12 +21,9 @@ final class RoutesManifest implements JsonSerializable {
 
     public function __construct(
         array|string $filters = [],
-        string $nonce = '',
         string $base = null
     ) {
         $url = App::make('url');
-
-        $this->nonce = $nonce;
 
         $base = Str::of($base);
         $this->base = rtrim($base->isEmpty() ? $url->to('/') : $base, '/');
@@ -67,16 +62,6 @@ final class RoutesManifest implements JsonSerializable {
      * */
     public function toJson(int $options = 0): string {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR | $options);
-    }
-
-    public function makeScriptTag(string $name = null): string {
-        $name = $name ?? App::make(PackageService::class)->name();
-        return <<<HTML
-            <script type="text/javascript" {$this->nonce}>
-                if (!Object.hasOwn(window, '{$name}'))
-                    window.{$name} = '{$this->toJson()}';
-            </script>
-        HTML;
     }
 
     private function processFilters(array $filters): void {

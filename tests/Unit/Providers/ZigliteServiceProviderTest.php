@@ -1,6 +1,7 @@
 <?php
 
-use GalacticInterloper\Ziglite\Helpers\RoutesManifest;
+use GalacticInterloper\Ziglite\Generators\JavascriptDataTagGenerator;
+use GalacticInterloper\Ziglite\Routes\Manifest;
 use GalacticInterloper\Ziglite\Providers\ZigliteServiceProvider;
 use GalacticInterloper\Ziglite\Services\PackageService;
 use Illuminate\Support\Facades\App;
@@ -30,10 +31,10 @@ describe("Ziglite Service Provider", function () {
 
     test('Directives compiles correctly', function (string $expr) {
         $directive = '@' . $this->package->name();
-        $class = RoutesManifest::class;
+        $class = JavascriptDataTagGenerator::class;
 
         expect($this->blade->compileString("{$directive}({$expr})"))
-            ->toBe("<?php echo (new \{$class}({$expr}))->makeScriptTag(); ?>");
+            ->toBe("<?php echo (new \\{$class}())->make({$expr}); ?>");
     })->with([
         '',
         'users.*',

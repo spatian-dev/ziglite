@@ -35,7 +35,7 @@ export default defineConfig({
             entry: js_path('index.ts'),
             name: "ziglite",
             fileName: "index",
-            formats: ["es", "cjs"],
+            formats: ["es", "cjs", "umd"],
         },
     },
     test: {
