@@ -1,6 +1,7 @@
 <?php
 
 use GalacticInterloper\Ziglite\Generators\JavascriptDataTagGenerator;
+use GalacticInterloper\Ziglite\Services\PackageService;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +37,8 @@ describe("Javascript Data Tag Generator", function () {
     });
 
     test('Generated script tag contain the correct routes manifest', function () {
-        $varname = 'ziglite';
-        $tag = (new JavascriptDataTagGenerator())->make(filters: 'home', name: $varname);
+        $varname = App::make(PackageService::class)->name() . '_data';
+        $tag = (new JavascriptDataTagGenerator())->make(filters: 'home');
 
         $generated = Str::beforeLast(Str::after($tag, "window.{$varname} = '"), "';\n");
 

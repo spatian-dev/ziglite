@@ -33,7 +33,7 @@ export default defineConfig({
         reportCompressedSize: true,
         lib: {
             entry: js_path('index.ts'),
-            name: "ziglite",
+            name: "Ziglite",
             fileName: "index",
             formats: ["es", "cjs", "umd"],
         },

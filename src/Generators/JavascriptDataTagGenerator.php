@@ -14,7 +14,7 @@ final class JavascriptDataTagGenerator implements OutputGeneratorInterface {
         string $nonce = '',
         string $name = null,
     ): string {
-        $name = $name ?? App::make(PackageService::class)->name();
+        $name = $name ?? App::make(PackageService::class)->name() . '_data';
         $manifest = (new Manifest($filters));
         return <<<HTML
             <script type="text/javascript" {$nonce}>
