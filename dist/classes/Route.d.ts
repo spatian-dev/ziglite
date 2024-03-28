@@ -1,5 +1,6 @@
-import type { RouteCompilationResult, RouteDetails, RouteParametersWithQuery, RouteTokens } from '../types/Route.types';
-import type { Router } from './Router';
+import { Router } from './Router';
+import { RouteCompilationResult, RouteDetails, RouteParametersWithQuery, RouteTokens } from '../types/Route.types';
+
 /**
  * @classdesc A class representing a route.
  */

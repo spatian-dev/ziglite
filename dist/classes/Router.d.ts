@@ -1,5 +1,6 @@
-import type { RouteParametersWithQuery } from '../types/Route.types';
-import { type RouterConfiguration } from '../types/Router.types';
+import { RouterConfiguration } from '../types/Router.types';
+import { RouteParametersWithQuery } from '../types/Route.types';
+
 export declare const defaultConfig: () => {
     absolute: boolean;
     strict: boolean;

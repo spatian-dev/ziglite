@@ -1,25 +1,26 @@
-import { z } from "zod";
+import { z } from 'zod';
+
 declare const RouteTokensSchema: z.ZodRecord<z.ZodString, z.ZodBoolean>;
-export declare const RouteParametersSchema: z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>>;
-declare const RouteParametersWithQuerySchema: z.ZodIntersection<z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>>, z.ZodObject<{
-    _query: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>>>;
+export declare const RouteParametersSchema: z.ZodRecord<z.ZodString, z.ZodUnknown>;
+declare const RouteParametersWithQuerySchema: z.ZodIntersection<z.ZodRecord<z.ZodString, z.ZodUnknown>, z.ZodObject<{
+    _query: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodUnknown, z.ZodArray<z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>, "many">]>>>;
 }, "strip", z.ZodTypeAny, {
-    _query?: Record<string, string | number | boolean> | undefined;
+    _query?: Record<string, unknown> | undefined;
 }, {
-    _query?: Record<string, string | number | boolean> | undefined;
+    _query?: Record<string, unknown> | undefined;
 }>>;
 export declare const RouteDetailsSchema: z.ZodObject<{
     uri: z.ZodString;
     domain: z.ZodNullable<z.ZodString>;
-    wheres: z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>>;
+    wheres: z.ZodRecord<z.ZodString, z.ZodUnknown>;
 }, "strip", z.ZodTypeAny, {
     uri: string;
     domain: string | null;
-    wheres: Record<string, string | number | boolean>;
+    wheres: Record<string, unknown>;
 }, {
     uri: string;
     domain: string | null;
-    wheres: Record<string, string | number | boolean>;
+    wheres: Record<string, unknown>;
 }>;
 declare const RouteCompilationResultSchema: z.ZodObject<{
     substituted: z.ZodArray<z.ZodString, "many">;

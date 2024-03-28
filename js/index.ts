@@ -1,8 +1,8 @@
 import type { RouterConfiguration } from "@/types/Router.types";
 import type { RouteParametersWithQuery } from "@/types/Route.types";
-import { Router } from "@/classes/Router";
+import { Router as RouterClass } from "@/classes/Router";
 
-const router = new Router();
+const router = new RouterClass();
 
 /**
  * Set router configuration
@@ -28,12 +28,10 @@ export const route = (name: string, params?: RouteParametersWithQuery): string =
 };
 
 /**
- * Substitutes the given parameters in the URL corresponding to the given route name,
- * and returns the compiled result
+ * Check if this router instance has a route with the given name.
  *
  * @param {string} name Route name
- * @param {RouteParametersWithQuery} [params] Key-value substitutions Object
- * @returns {string} Compiled URL for the specified name
+ * @returns {boolean} True if this router instance has a route with the given name, or false otherwise.
  */
 export const hasRoute = (name: string): boolean => {
     return router.has(name);

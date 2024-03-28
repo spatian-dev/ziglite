@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 beforeEach(function () {
+    $this->defaults = ['foo' => 'bar'];
+
     Route::get('/', $this->noop())->name('home');
+    Route::get('/{file}.md', $this->noop())->name('markdown');
 
     Route::domain('{region}.domain.test')
         ->name('regions.')
@@ -51,9 +54,12 @@ beforeEach(function () {
                 ->group(function () {
                     Route::get('/purge', $this->noop())->name('purge');
                     Route::get('/{post}', $this->noop())->name('show');
-                    Route::get('/restore/{post}', $this->noop())->name('restore');
+                    Route::get('/restore/{post?}', $this->noop())->name('restore');
                 });
         });
+
+    Route::get('/defaults/{foo}', $this->noop())->name('defaults');
+    url()->defaults($this->defaults);
 
     Route::getRoutes()->refreshNameLookups();
 });
@@ -65,7 +71,7 @@ describe("Routes Manifest Generator", function () {
             ->toMatchArray([
                 'base' => url('/'),
                 'routes' => new stdClass(),
-                'defaults' => new stdClass(),
+                'defaults' => $this->defaults,
             ]);
     });
 
@@ -75,7 +81,7 @@ describe("Routes Manifest Generator", function () {
             ->toBe(json_encode([
                 'base' => url('/'),
                 'routes' => new stdClass(),
-                'defaults' => new stdClass(),
+                'defaults' => $this->defaults,
             ], JSON_THROW_ON_ERROR));
     });
 
@@ -210,7 +216,7 @@ describe("Routes Manifest Generator", function () {
                     "wheres" => new stdClass(),
                 ],
                 "posts.archives.restore" => [
-                    "uri" => "posts/archives/restore/{post}",
+                    "uri" => "posts/archives/restore/{post?}",
                     "domain" => null,
                     "wheres" => new stdClass(),
                 ],
@@ -386,7 +392,7 @@ describe("Routes Manifest Generator", function () {
                     "wheres" => new stdClass(),
                 ],
             ],
-            "defaults" => new stdClass(),
+            "defaults" => $this->defaults,
         ], JSON_THROW_ON_ERROR);
 
         expect($generated)

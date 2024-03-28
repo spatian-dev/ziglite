@@ -1,36 +1,37 @@
-import { z } from "zod";
-import type { BooleanOptional, IStringifyOptions } from "qs";
+import { BooleanOptional, IStringifyOptions } from 'qs';
+import { z } from 'zod';
+
 export declare const RouterConfigurationFromJsonSchema: z.ZodObject<{
     base: z.ZodString;
-    defaults: z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>>;
+    defaults: z.ZodRecord<z.ZodString, z.ZodUnknown>;
     routes: z.ZodRecord<z.ZodString, z.ZodObject<{
         uri: z.ZodString;
         domain: z.ZodNullable<z.ZodString>;
-        wheres: z.ZodRecord<z.ZodString, z.ZodUnion<[z.ZodString, z.ZodNumber, z.ZodBoolean]>>;
+        wheres: z.ZodRecord<z.ZodString, z.ZodUnknown>;
     }, "strip", z.ZodTypeAny, {
         uri: string;
         domain: string | null;
-        wheres: Record<string, string | number | boolean>;
+        wheres: Record<string, unknown>;
     }, {
         uri: string;
         domain: string | null;
-        wheres: Record<string, string | number | boolean>;
+        wheres: Record<string, unknown>;
     }>>;
 }, "strip", z.ZodTypeAny, {
     base: string;
-    defaults: Record<string, string | number | boolean>;
+    defaults: Record<string, unknown>;
     routes: Record<string, {
         uri: string;
         domain: string | null;
-        wheres: Record<string, string | number | boolean>;
+        wheres: Record<string, unknown>;
     }>;
 }, {
     base: string;
-    defaults: Record<string, string | number | boolean>;
+    defaults: Record<string, unknown>;
     routes: Record<string, {
         uri: string;
         domain: string | null;
-        wheres: Record<string, string | number | boolean>;
+        wheres: Record<string, unknown>;
     }>;
 }>;
 export type RouterConfigurationFromJson = z.infer<typeof RouterConfigurationFromJsonSchema>;

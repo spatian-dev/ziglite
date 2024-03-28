@@ -83,11 +83,11 @@ export class Router {
         delete params._query;
 
         for (const key of Object.keys(params)) {
-            if (Object.hasOwn(query, key))
-                console.warn(`Duplicate "${key}" in params and params.query may cause issues`);
-
             if (substituted.includes(key))
                 continue;
+
+            if (Object.hasOwn(query, key))
+                console.warn(`Duplicate "${key}" in params and params.query may cause issues`);
 
             query[key] = params[key];
         }
