@@ -19,7 +19,7 @@ final class PackageService {
     }
 
     public function version(): string {
-        return $this->composer['version'];
+        return '0.1';
     }
 
     public function name(): string {
@@ -31,7 +31,7 @@ final class PackageService {
     }
 
     public function displayName(): string {
-        return $this->composer['display-name'];
+        return 'Ziglite';
     }
 
     public function rootDir(string $sub = null): string {
