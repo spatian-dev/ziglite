@@ -1,8 +1,6 @@
 {
 	"name": "spatian-dev/ziglite",
-    "display-name": "Ziglite",
 	"description": "A Laravel route name translator for Javascript",
-    "version": "0.1",
     "homepage": "https://ziglite.spatian.dev",
 	"type": "library",
 	"license": "Apache-2.0",
