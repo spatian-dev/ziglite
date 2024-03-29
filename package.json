@@ -14,14 +14,14 @@
     "type": "module",
     "author": {
         "name": "Saad Sidqui",
-        "email": "galacticinterloper.dev@gmail.com"
+        "email": "spatian.dev@gmail.com"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/galactic-interloper/ziglite",
-    "bugs": "https://github.com/galactic-interloper/ziglite/issues",
+    "homepage": "https://github.com/spatian-dev/ziglite",
+    "bugs": "https://github.com/spatian-dev/ziglite/issues",
     "repository": {
         "type": "git",
-        "url": "https://github.com/galactic-interloper/ziglite.git"
+        "url": "https://github.com/spatian-dev/ziglite.git"
     },
     "files": [
         "dist"

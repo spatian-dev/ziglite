@@ -1,7 +1,7 @@
 <?php
 
-use GalacticInterloper\Ziglite\Routes\Manifest;
-use GalacticInterloper\Ziglite\Tests\Fixtures\Controllers\NoopController;
+use Spatian\Ziglite\Routes\Manifest;
+use Spatian\Ziglite\Tests\Fixtures\Controllers\NoopController;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;

@@ -1,6 +1,6 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Routes;
+namespace Spatian\Ziglite\Routes;
 
 use Illuminate\Support\Str;
 use Illuminate\Routing\Router;

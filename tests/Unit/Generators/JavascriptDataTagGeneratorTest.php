@@ -1,7 +1,7 @@
 <?php
 
-use GalacticInterloper\Ziglite\Generators\JavascriptDataTagGenerator;
-use GalacticInterloper\Ziglite\Services\PackageService;
+use Spatian\Ziglite\Generators\JavascriptDataTagGenerator;
+use Spatian\Ziglite\Services\PackageService;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;

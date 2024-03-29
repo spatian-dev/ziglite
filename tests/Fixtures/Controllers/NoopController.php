@@ -1,6 +1,6 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Tests\Fixtures\Controllers;
+namespace Spatian\Ziglite\Tests\Fixtures\Controllers;
 
 class NoopController {
     public function index(): null {

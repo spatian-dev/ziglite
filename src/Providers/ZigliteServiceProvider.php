@@ -1,10 +1,10 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Providers;
+namespace Spatian\Ziglite\Providers;
 
-use GalacticInterloper\Ziglite\Generators\JavascriptDataTagGenerator;
-use GalacticInterloper\Ziglite\Interfaces\OutputGeneratorInterface;
-use GalacticInterloper\Ziglite\Services\PackageService;
+use Spatian\Ziglite\Generators\JavascriptDataTagGenerator;
+use Spatian\Ziglite\Interfaces\OutputGeneratorInterface;
+use Spatian\Ziglite\Services\PackageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;

@@ -1,10 +1,10 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Tests;
+namespace Spatian\Ziglite\Tests;
 
 use Closure;
-use GalacticInterloper\Ziglite\Routes\Manifest;
-use GalacticInterloper\Ziglite\Providers\ZigliteServiceProvider;
+use Spatian\Ziglite\Routes\Manifest;
+use Spatian\Ziglite\Providers\ZigliteServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase {

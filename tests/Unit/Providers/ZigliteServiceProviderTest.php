@@ -1,9 +1,9 @@
 <?php
 
-use GalacticInterloper\Ziglite\Generators\JavascriptDataTagGenerator;
-use GalacticInterloper\Ziglite\Routes\Manifest;
-use GalacticInterloper\Ziglite\Providers\ZigliteServiceProvider;
-use GalacticInterloper\Ziglite\Services\PackageService;
+use Spatian\Ziglite\Generators\JavascriptDataTagGenerator;
+use Spatian\Ziglite\Routes\Manifest;
+use Spatian\Ziglite\Providers\ZigliteServiceProvider;
+use Spatian\Ziglite\Services\PackageService;
 use Illuminate\Support\Facades\App;
 
 beforeEach(function () {

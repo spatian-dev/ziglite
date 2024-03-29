@@ -1,10 +1,10 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Generators;
+namespace Spatian\Ziglite\Generators;
 
-use GalacticInterloper\Ziglite\Services\PackageService;
-use GalacticInterloper\Ziglite\Interfaces\OutputGeneratorInterface;
-use GalacticInterloper\Ziglite\Routes\Manifest;
+use Spatian\Ziglite\Services\PackageService;
+use Spatian\Ziglite\Interfaces\OutputGeneratorInterface;
+use Spatian\Ziglite\Routes\Manifest;
 use Illuminate\Support\Facades\App;
 
 final class JavascriptDataTagGenerator implements OutputGeneratorInterface {

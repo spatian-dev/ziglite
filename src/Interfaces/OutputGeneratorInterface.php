@@ -1,6 +1,6 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Interfaces;
+namespace Spatian\Ziglite\Interfaces;
 
 interface OutputGeneratorInterface {
     public function make(

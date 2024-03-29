@@ -1,6 +1,6 @@
 <?php
 
-namespace GalacticInterloper\Ziglite\Services;
+namespace Spatian\Ziglite\Services;
 
 use Illuminate\Support\Str;
 

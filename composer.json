@@ -1,25 +1,25 @@
 {
-	"name": "galactic-interloper/ziglite",
+	"name": "spatian-dev/ziglite",
     "display-name": "Ziglite",
 	"description": "A Laravel route name translator for Javascript",
     "version": "0.1",
-    "homepage": "https://ziglite.galacticinterloper.dev",
+    "homepage": "https://ziglite.spatian.dev",
 	"type": "library",
 	"license": "Apache-2.0",
 	"authors": [
 		{
 			"name": "Saad Sidqui",
-			"email": "galacticinterloper.dev@gmail.com"
+			"email": "spatian.dev@gmail.com"
 		}
 	],
     "autoload": {
 		"psr-4": {
-			"GalacticInterloper\\Ziglite\\": "src/"
+			"Spatian\\Ziglite\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"GalacticInterloper\\Ziglite\\Tests\\": "tests/"
+			"Spatian\\Ziglite\\Tests\\": "tests/"
 		}
 	},
     "keywords": [
@@ -44,7 +44,7 @@
 	"extra": {
         "laravel": {
             "providers": [
-                "GalacticInterloper\\Ziglite\\Providers\\ZigliteServiceProvider"
+                "Spatian\\Ziglite\\Providers\\ZigliteServiceProvider"
             ]
         }
     },
