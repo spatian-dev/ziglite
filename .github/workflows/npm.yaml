@@ -28,12 +28,12 @@ jobs:
 
       - name: Publish with latest tag
         if: github.event.release.prelease == false
-        run: npm publish package.tgz --provenance
+        run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish with next tag
         if: github.event.release.prelease == true
-        run: npm publish package.tgz --tag next --provenance
+        run: npm publish --tag next --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
