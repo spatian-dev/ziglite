@@ -37,7 +37,7 @@ To get started with contributing code, please:
 ## Pull Requests
 Before opening a pull request, please check if a pull request has not already been opened for the same changes. If you would like to submit multiple features or bug fixes, please submit a pull request for each.
 
-Your pull request must also include tests for al lthe changes you're submitting.\
+Your pull request must also include tests for all the changes you're submitting.\
 We use [Pest](https://pestphp.com/) with [Orchestra Testbench](https://packages.tools/testbench.html) to test PHP code, and [Vitest](https://vitest.dev/) to test javascript code.
 
 - Run PHP tests using `vendor/bin/pest` or `yarn test:php`
