@@ -57,7 +57,7 @@ route('users.update', {user: 5});
 > **⚠️Warning:** Ziglite does not support [Encoded Forward Slashes](https://laravel.com/docs/11.x/routing#parameters-encoded-forward-slashes). See [strict mode](#strict-mode) for more information.
 
 ## Why Ziglite?
-Ziglite is intended to be a simplified alternative to Ziglite. By omitting some of Ziggy's more advanced features, Ziglite offers a focused feature set aimed at ease of use. One notable difference is in filtering: Ziglite opts for a simplified and stricter approach by default.
+Ziglite is intended to be a simplified alternative to Ziggy. By omitting some of Ziggy's more advanced features, Ziglite offers a focused feature set aimed at ease of use. One notable difference is in filtering: Ziglite opts for a simplified and stricter approach by default.
 
 Additionally, Ziglite boasts seamless integration into Laravel packages, providing developers with the ability to:
 - Define custom aliases for the default Blade directive
