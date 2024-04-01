@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.1] - 2024-04-01
+## [v1.0.1] - 2024-04-01
 
 ### Added
 - Added binding `ziglite` for `PackageService` into service container
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Removed binding of `ZigliteServiceProvider` into service container
 
-## [1.0.0] - 2024-03-31
+## [v1.0.0] - 2024-03-31
 
 ### Added
 
