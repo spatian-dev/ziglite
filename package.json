@@ -35,20 +35,22 @@
         "@types/qs": "^6.9.14",
         "eslint": "^8.57.0",
         "husky": "^9.0.11",
-        "pathe": "^1.1.2",
-        "qs": "^6.12.0",
         "rimraf": "^5.0.5",
         "typescript": "^5.4.3",
         "typescript-eslint": "^7.3.1",
         "vite": "^5.2.7",
         "vite-plugin-dts": "^3.7.3",
-        "vitest": "^1.4.0",
+        "vitest": "^1.4.0"
+    },
+    "dependencies": {
+        "qs": "^6.12.0",
         "zod": "^3.22.4"
     },
     "scripts": {
         "clean": "rimraf ./dist",
         "lint": "eslint .",
         "build": "yarn run clean && tsc && vite build",
+        "build:nodeps": "yarn run clean && tsc && vite build -c ./vite.nodeps.config.ts",
         "dev": "vitest",
         "test": "vitest run",
         "test:php": "./vendor/bin/pest",

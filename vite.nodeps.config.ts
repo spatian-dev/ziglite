@@ -6,8 +6,8 @@ import baseConfig from './vite.base.config';
 export default defineConfig(configEnv => {
     return mergeConfig(baseConfig(configEnv), {
         build: {
-            lib: {
-                formats: ["umd"],
+            rollupOptions: {
+                external: ['qs', 'zod'],
             },
         },
     });

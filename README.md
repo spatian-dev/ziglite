@@ -138,7 +138,7 @@ The JSON object is assigned to a `ziglite_data` variable on the `window` global.
 console.log(ziglite_data);
 /*
     Should print an object similar to :
-    
+
     {
         base: ...,
         defaults: { ... },
@@ -157,11 +157,9 @@ make(array|string $filters = [], string $base = null, string $nonce = ''): strin
 - `$base` [custom origin](#custom-origin) to be included in the output
 - `$nonce` a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) nonce to be included in the output.
 
-You can also define a custom blade directive that uses your custom generator using the `setupBladeDirective()` function from the [`ZigliteServiceProvider`](src/Providers/ZigliteServiceProvider.php). In your `AppServiceProvider`:
+You can also define a custom blade directive that uses your custom generator. In your `AppServiceProvider`:
 ```PHP
-use Spatian\Ziglite\Providers\ZigliteServiceProvider;
-
-app(ZigliteServiceProvider::class)->setupBladeDirective('mydirective', new MyCustomOutputGenerator());
+app('ziglite')->setupBladeDirective('mydirective', new MyCustomOutputGenerator());
 ```
 
 ## The Front-end Helpers

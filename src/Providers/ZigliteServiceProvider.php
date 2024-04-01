@@ -2,13 +2,10 @@
 
 namespace Spatian\Ziglite\Providers;
 
-use Spatian\Ziglite\Generators\JavascriptDataTagGenerator;
-use Spatian\Ziglite\Interfaces\OutputGeneratorInterface;
 use Spatian\Ziglite\Services\PackageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 
 final class ZigliteServiceProvider extends ServiceProvider {
 
@@ -17,7 +14,7 @@ final class ZigliteServiceProvider extends ServiceProvider {
         private PackageService $package = new PackageService(),
     ) {
         parent::__construct($app);
-        $this->app->singleton(static::class, fn() => $this);
+        $this->app->singleton('ziglite', fn() => $this->package);
     }
 
     protected function publishes(array $paths, $group = null): void {
@@ -39,21 +36,7 @@ final class ZigliteServiceProvider extends ServiceProvider {
         }
 
         if ($this->package->config('blade.directives.register_default', true))
-            $this->setupBladeDirective();
-    }
-
-    public function setupBladeDirective(
-        string $name = null,
-        OutputGeneratorInterface $generator = null
-    ): void {
-        if ($this->app->resolved('blade.compiler')) {
-            $this->registerBladeDirective($this->app['blade.compiler'], $name, $generator);
-        } else {
-            $this->app->afterResolving(
-                'blade.compiler',
-                fn (BladeCompiler $blade) => $this->registerBladeDirective($blade, $name, $generator)
-            );
-        }
+            $this->package->setupBladeDirective();
     }
 
     private function bindServices(): void {
@@ -75,20 +58,5 @@ final class ZigliteServiceProvider extends ServiceProvider {
             $this->package->configFile() => config_path($this->package->name() . '.php'),
             'config'
         ]);
-    }
-
-    private function registerBladeDirective(
-        BladeCompiler $blade,
-        string $directive = null,
-        OutputGeneratorInterface $generator = null,
-    ): void {
-        $directive = $directive ?? $this->package->name();
-        $class = is_null($generator) ? JavascriptDataTagGenerator::class : $generator::class;
-        $blade->directive(
-            $directive,
-            function (string $expr = '') use ($class) {
-                return "<?php echo (new \\{$class}())->make({$expr}); ?>";
-            }
-        );
     }
 }

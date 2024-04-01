@@ -23,7 +23,7 @@ describe("Ziglite Service Provider", function () {
         expect($this->blade->getCustomDirectives())
             ->not->toHaveKey($custom);
 
-        $this->provider->setupBladeDirective($custom);
+        $this->package->setupBladeDirective($custom);
 
         expect($this->blade->getCustomDirectives())
             ->toHaveKey($custom);
