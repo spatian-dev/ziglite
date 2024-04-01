@@ -26,8 +26,6 @@ jobs:
         with:
           script: core.setFailed('Release tag does not match package.json')
 
-      - run: yarn pack
-
       - name: Publish with latest tag
         if: github.event.release.prelease == false
         run: npm publish package.tgz --provenance
