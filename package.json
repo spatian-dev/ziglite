@@ -50,7 +50,6 @@
         "clean": "rimraf ./dist",
         "lint": "eslint .",
         "build": "yarn run clean && tsc && vite build",
-        "build:nodeps": "yarn run clean && tsc && vite build -c ./vite.nodeps.config.ts",
         "dev": "vitest",
         "test": "vitest run",
         "test:php": "./vendor/bin/pest",
