@@ -1,7 +1,7 @@
 {
     "name": "ziglite",
     "description": "A Laravel route name translator for Javascript",
-    "version": "1.0.0-rc",
+    "version": "1.0.0",
     "keywords": [
         "ziglite",
         "laravel",
@@ -17,7 +17,7 @@
         "email": "spatian.dev@gmail.com"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/spatian-dev/ziglite",
+    "homepage": "https://ziglite.spatian.dev",
     "bugs": "https://github.com/spatian-dev/ziglite/issues",
     "repository": {
         "type": "git",

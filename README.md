@@ -1,5 +1,5 @@
 # Ziglite - A Laravel route name translator for Javascript
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/spatian-dev/ziglite/test.yaml?label=Build&branch=1.x-rc)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/spatian-dev/ziglite/test.yaml?label=Build)
 ![Packagist Version](https://img.shields.io/packagist/v/spatian-dev/ziglite?label=Packagist)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/spatian-dev/ziglite?label=Packagist%20downloads)
 ![NPM Version](https://img.shields.io/npm/v/ziglite?label=NPM)
