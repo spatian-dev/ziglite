@@ -129,11 +129,22 @@ By default, Ziglite defines a `@ziglite` blade directive. This directive uses th
 The JSON object is assigned to a `ziglite_data` variable on the `window` global.
 
 ```PHP
+// home.blade.php
 @ziglite("*")
 ```
 
 ```javascript
+// home.js
 console.log(ziglite_data);
+/*
+    Should print an object similar to :
+    
+    {
+        base: ...,
+        defaults: { ... },
+        routes: [ ... ],
+    }
+*/
 ```
 ### Custom Directives and Custom Generators
 You can define your custom generators by implementing the [`OutputGeneratorInterface`](src/Interfaces/OutputGeneratorInterface.php). This requires implementing a `make()` function that generates the output as a string.
