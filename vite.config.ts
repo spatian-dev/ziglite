@@ -13,42 +13,47 @@ const common_exclude = [
     'dist/**',
 ];
 
-export default defineConfig({
-    plugins: [
-        dts({
-            entryRoot: js_path(),
-            strictOutput: true,
-            exclude: [],
-            insertTypesEntry: true,
-        }),
-    ],
-    resolve: {
-        alias: {
-            '@': js_path(''),
-            'tests': root_path('tests/js'),
-        },
-    },
-    build: {
-        minify: true,
-        reportCompressedSize: true,
-        lib: {
-            entry: js_path('index.ts'),
-            name: "Ziglite",
-            fileName: "index",
-            formats: ["es", "cjs", "umd"],
-        },
-    },
-    test: {
-        include: [
-            '**/tests/js/**/*.test.ts',
+export default defineConfig(({ mode }) => {
+    return {
+        plugins: [
+            dts({
+                entryRoot: js_path(),
+                strictOutput: true,
+                exclude: [],
+                insertTypesEntry: true,
+            }),
         ],
-        exclude: common_exclude,
-        typecheck: {
-            enabled: true,
+        resolve: {
+            alias: {
+                '@': js_path(''),
+                'tests': root_path('tests/js'),
+            },
+        },
+        build: {
+            minify: true,
+            reportCompressedSize: true,
+            lib: {
+                entry: js_path('index.ts'),
+                name: "Ziglite",
+                fileName: "index",
+                formats: ["es"],
+            },
+            rollupOptions: {
+                external: ['qs', 'zod'],
+            },
+        },
+        test: {
             include: [
-                '**/tests/js/**/*.test-d.ts',
+                '**/tests/js/**/*.test.ts',
             ],
             exclude: common_exclude,
+            typecheck: {
+                enabled: true,
+                include: [
+                    '**/tests/js/**/*.test-d.ts',
+                ],
+                exclude: common_exclude,
+            },
         },
-    },
+    };
 });

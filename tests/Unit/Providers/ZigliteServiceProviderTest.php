@@ -1,7 +1,6 @@
 <?php
 
 use Spatian\Ziglite\Generators\JavascriptDataTagGenerator;
-use Spatian\Ziglite\Routes\Manifest;
 use Spatian\Ziglite\Providers\ZigliteServiceProvider;
 use Spatian\Ziglite\Services\PackageService;
 use Illuminate\Support\Facades\App;
@@ -23,7 +22,7 @@ describe("Ziglite Service Provider", function () {
         expect($this->blade->getCustomDirectives())
             ->not->toHaveKey($custom);
 
-        $this->provider->setupBladeDirective($custom);
+        $this->package->setupBladeDirective($custom);
 
         expect($this->blade->getCustomDirectives())
             ->toHaveKey($custom);

@@ -26,6 +26,14 @@ Before sending a bug report, please:
 If you still would like to submit a bug report, please open an issue and select *Bug report*, then thoroughly fill the form.\
 Please include a [minimal reproducible example](https://en.wikipedia.org/wiki/Minimal_reproducible_example) to avoid your issue being closed.
 
+## Setting Up Your Local Environment
+To get started with contributing code, please:
+- Fork the repo
+- Clone your fork locally
+- Run `composer install` to install PHP dependencies
+- Run `yarn` to install javascript dependencies
+- Run `yarn prepare` to setup your [Husky](https://typicode.github.io/husky/) 🐶 *woof!*
+
 ## Pull Requests
 Before opening a pull request, please check if a pull request has not already been opened for the same changes. If you would like to submit multiple features or bug fixes, please submit a pull request for each.
 
