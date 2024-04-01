@@ -9,7 +9,7 @@ interface OutputGeneratorInterface {
      * @param string $nonce A CSP nonce.
      *
      * @return string Output
-    */
+     */
     public function make(
         array|string $filters = [],
         string $base = null,
