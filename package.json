@@ -21,7 +21,7 @@
     "bugs": "https://github.com/spatian-dev/ziglite/issues",
     "repository": {
         "type": "git",
-        "url": "https://github.com/spatian-dev/ziglite.git"
+        "url": "git+https://github.com/spatian-dev/ziglite.git"
     },
     "files": [
         "dist"
