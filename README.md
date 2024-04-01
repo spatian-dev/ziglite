@@ -11,6 +11,7 @@ This package is inspired by, and a lightweight minimalistic alternative to, the 
 
 - **[Quick Start](#quick-start)**
 - **[Why Ziglite?](#why-ziglite)**
+- **[Usage in a Package](#usage-in-a-package)**
 - **[Route Filtering](#route-filtering)**
 - **[The Routes Manifest](#the-routes-manifest)**
     - [Filters](#filters)
@@ -35,7 +36,7 @@ This package is inspired by, and a lightweight minimalistic alternative to, the 
 Install Ziglite in your Laravel application or package with Composer:
 ```shell
 composer require spatian-dev/ziglite
-npm install --save-dev ziglite
+yarn install ziglite
 ```
 
 Include the default directive in your Blade `@ziglite("*")`:
@@ -56,9 +57,22 @@ route('users.update', {user: 5});
 > **⚠️Warning:** Ziglite does not support [Encoded Forward Slashes](https://laravel.com/docs/11.x/routing#parameters-encoded-forward-slashes). See [strict mode](#strict-mode) for more information.
 
 ## Why Ziglite?
-Ziglite intentionally forgoes some of the more advanced features of Ziggy in favor of a concise feature set, and an easier integration for Laravel Package developers.
-For example, Ziglite's filtering is simplified, and more restrictive by default.\
-It is also easier to integrate into a Laravel package, allowing the developer to define custom aliases to the default Blade directive, to use custom output generators, and to have greater control of filtering.
+Ziglite is intended to be a simplified alternative to Ziglite. By omitting some of Ziggy's more advanced features, Ziglite offers a focused feature set aimed at ease of use. One notable difference is in filtering: Ziglite opts for a simplified and stricter approach by default.
+
+Additionally, Ziglite boasts seamless integration into Laravel packages, providing developers with the ability to:
+- Define custom aliases for the default Blade directive
+- Utilize custom output generators
+- Exert greater control over route filtering.
+
+We hope Ziglite delivers simplicity and versatility for your Laravel projects and packages.\
+If you have ideas or suggestions, please see [Contributing](#contributing).
+
+## Usage in a Package
+Register Ziglite's service provider inside the `register()` method of your package's service provider:
+```PHP
+$this->app->register(\Spatian\Ziglite\Providers\ZigliteServiceProvider::class);
+```
+You can then use the package the same way you would from a regular Laravel Application.
 
 ## Route Filtering
 Ziglite only includes named routes that match explicitly provided filters. The filtering is based on [pattern-matching capabilities provided by Laravel's Str helper](https://laravel.com/docs/11.x/strings#method-str-is).
@@ -163,14 +177,13 @@ app('ziglite')->setupBladeDirective('mydirective', new MyCustomOutputGenerator()
 ```
 
 ## The Front-end Helpers
+The javascript library is published to a separate NPM package.
+```shell
+yarn install ziglite
+```
+
 By default, Ziglite does not globally import its javascript helpers. Instead, it defers to the developer to include them and use them as they see fit.\
-For your convenience, the javascript library is both included in the PHP package installed through Composer, and published to a separate NPM package.
-
-> **ℹ️** The examples shown below show the usage of the NPM package.\
-> However if you're using the javascript library from the composer package, you will need to adjust your import statements.\
-> Additionally, if you're using typescript, you might need to include the path to Ziglite in your `vendor` folder to your `compilerOptions` for types to be detected properly.
-
-The library does however include a default instance of [the `Router` class](#the-router-class). You can interact with this instance through the helper functions below.
+The library does, however, create an internal default instance of [the `Router` class](#the-router-class). You can interact with this instance through the helper functions below.
 
 ### The `configureRouter()` helper
 Use this function to set the configuration for the default `Router` instance. 

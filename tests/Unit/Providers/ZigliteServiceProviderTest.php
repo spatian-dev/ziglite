@@ -1,7 +1,6 @@
 <?php
 
 use Spatian\Ziglite\Generators\JavascriptDataTagGenerator;
-use Spatian\Ziglite\Routes\Manifest;
 use Spatian\Ziglite\Providers\ZigliteServiceProvider;
 use Spatian\Ziglite\Services\PackageService;
 use Illuminate\Support\Facades\App;
