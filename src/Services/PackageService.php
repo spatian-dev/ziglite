@@ -19,7 +19,7 @@ final class PackageService {
     }
 
     public function version(): string {
-        return '0.1';
+        return '0.9';
     }
 
     public function name(): string {

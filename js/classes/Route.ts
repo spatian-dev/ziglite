@@ -123,6 +123,8 @@ export class Route {
                             message +
                             '\n\tAn error was thrown because you enabled strict mode.\n'
                         );
+                    } else {
+                        console.warn(message);
                     }
                 }
             }

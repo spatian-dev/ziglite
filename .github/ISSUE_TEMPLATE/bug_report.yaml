@@ -1,0 +1,28 @@
+name: Bug Report
+description: Report an issue with Ziglite
+body:
+  - type: input
+    attributes:
+      label: Ziglite version
+      placeholder: E.g. v1.0.0
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Laravel version
+      placeholder: E.g. v11.0.7
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: Describe clear the behaviour you're encountering, steps to reproduce it, and the expected behaviour.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Minimal Reproducible Example repository
+      description: Link to a public MRE repository
+      placeholder: https://github.com/example/my-mre
+    validations:
+      required: true

@@ -17,6 +17,7 @@ final class ZigliteServiceProvider extends ServiceProvider {
         private PackageService $package = new PackageService(),
     ) {
         parent::__construct($app);
+        $this->app->singleton(static::class, fn() => $this);
     }
 
     protected function publishes(array $paths, $group = null): void {

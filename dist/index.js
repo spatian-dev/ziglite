@@ -2854,6 +2854,7 @@ class ba {
 	An error was thrown because you enabled strict mode.
 `
             );
+          console.warn(m);
         }
       }
     }

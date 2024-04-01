@@ -61,7 +61,7 @@ final class Manifest implements JsonSerializable {
      * @throws \JsonException
      * */
     public function toJson(int $options = 0): string {
-        return json_encode($this->toArray(), JSON_THROW_ON_ERROR | $options);
+        return json_encode($this, JSON_THROW_ON_ERROR | $options);
     }
 
     private function processFilters(array $filters): void {

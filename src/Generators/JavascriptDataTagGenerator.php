@@ -18,7 +18,7 @@ final class JavascriptDataTagGenerator implements OutputGeneratorInterface {
         $manifest = (new Manifest($filters));
         return <<<HTML
             <script type="text/javascript" {$nonce}>
-                if (!Object.hasOwn(window, '{$name}'))
+                if ((typeof window !== 'undefined') && !Object.hasOwn(window, '{$name}'))
                     window.{$name} = '{$manifest->toJson()}';
             </script>
         HTML;

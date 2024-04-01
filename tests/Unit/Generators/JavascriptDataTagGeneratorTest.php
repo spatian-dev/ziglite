@@ -32,7 +32,7 @@ describe("Javascript Data Tag Generator", function () {
         $tag = (new JavascriptDataTagGenerator())->make(filters: 'home', name: $varname);
 
         expect($tag)
-            ->toContain("if (!Object.hasOwn(window, '{$varname}'))")
+            ->toContain("if ((typeof window !== 'undefined') && !Object.hasOwn(window, '{$varname}'))")
             ->toContain("window.{$varname} =");
     });
 
@@ -40,7 +40,7 @@ describe("Javascript Data Tag Generator", function () {
         $varname = App::make(PackageService::class)->name() . '_data';
         $tag = (new JavascriptDataTagGenerator())->make(filters: 'home');
 
-        $generated = Str::beforeLast(Str::after($tag, "window.{$varname} = '"), "';\n");
+        $generated = Str::beforeLast(Str::after($tag, "window.{$varname} = '"), "';");
 
         $expected = json_encode([
             "base" => url('/'),

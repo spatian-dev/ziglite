@@ -19,7 +19,7 @@ export declare const defaultConfig: () => {
  */
 export declare class Router {
     #private;
-    constructor(config?: Partial<RouterConfiguration>);
+    constructor(config?: string | Partial<RouterConfiguration>);
     get config(): RouterConfiguration;
     set config(value: string | Partial<RouterConfiguration>);
     get base(): string;

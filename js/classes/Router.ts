@@ -39,7 +39,7 @@ const parseRouterConfig = (config: string): RouterConfigurationFromJson => {
 export class Router {
     #config: RouterConfiguration = defaultConfig();
 
-    constructor(config?: Partial<RouterConfiguration>) {
+    constructor(config?: string | Partial<RouterConfiguration>) {
         this.config = config ?? {};
     }
 
