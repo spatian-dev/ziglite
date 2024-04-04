@@ -1,6 +1,6 @@
 {
     "name": "ziglite",
-    "description": "A Laravel route name translator for Javascript",
+    "description": "A Laravel named routes integration for Javascript",
     "version": "1.0.1",
     "keywords": [
         "ziglite",

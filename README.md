@@ -1,4 +1,4 @@
-# Ziglite - A Laravel route name translator for Javascript
+# Ziglite - A Laravel named routes integration for Javascript
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/spatian-dev/ziglite/test.yaml?label=Build&branch=1.x)
 ![Packagist Version](https://img.shields.io/packagist/v/spatian-dev/ziglite?label=Packagist)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/spatian-dev/ziglite?label=Packagist%20downloads)
@@ -49,7 +49,7 @@ import { configureRouter } from 'ziglite';
 configureRouter(ziglite_data);
 ```
 
-Use the `route()` helper to translate named routes to URLs:
+Use the `route()` helper to transform a named route to a URL:
 ```javascript
 import { route } from 'ziglite';
 route('users.update', {user: 5});
@@ -200,7 +200,7 @@ configureRouter({
 ```
 
 ### The `route()` and `hasRoute()` helpers
-The `route()` function translates a named route to a URL using the default `Router` instance. This function works similarly to Laravel's `route()`.
+The `route()` function transforms a named route to a URL using the default `Router` instance. This function works similarly to Laravel's `route()`.
 
 ```javascript
 import { route } from 'ziglite';
@@ -303,7 +303,7 @@ const myRouter = new Router(config);
 // check if the given named route exists
 myRouter.has('home');
 
-// translate the given named route and parameters to a URL
+// transform the given named route and parameters to a URL
 myRouter.compile('users.show', {user: 5}); // https://example.test/users/5
 ```
 
