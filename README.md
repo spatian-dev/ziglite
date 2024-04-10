@@ -7,9 +7,10 @@
 
 ## What is Ziglite?
 [Ziglite](https://ziglite.spatian.dev) provides a way for Laravel developers to use their route names in the front end.\
-This package is inspired by, and a lightweight minimalistic alternative to, the excellent and feature-rich [Ziggy](https://github.com/tighten/ziggy) by [Tighten.co](https://tighten.com/).
+This package is inspired by, and a lightweight minimalistic alternative to, the excellent and feature-rich [Ziggy](https://github.com/tighten/ziggy) by [Tighten](https://tighten.com/).
 
 - **[Quick Start](#quick-start)**
+- **[Supported Laravel Versions](#supported-laravel-versions)**
 - **[Why Ziglite?](#why-ziglite)**
 - **[Usage in a Package](#usage-in-a-package)**
 - **[Route Filtering](#route-filtering)**
@@ -55,6 +56,13 @@ import { route } from 'ziglite';
 route('users.update', {user: 5});
 ```
 > **⚠️Warning:** Ziglite does not support [Encoded Forward Slashes](https://laravel.com/docs/11.x/routing#parameters-encoded-forward-slashes). See [strict mode](#strict-mode) for more information.
+
+## Supported Laravel Versions
+
+| Laravel | Supported          |
+| ------- | ------------------ |
+| 10.x	  | :white_check_mark: |
+| 11.x	  | :white_check_mark: |
 
 ## Why Ziglite?
 Ziglite is intended to be a simplified alternative to Ziggy. By omitting some of Ziggy's more advanced features, Ziglite offers a focused feature set aimed at ease of use. One notable difference is in filtering: Ziglite opts for a simplified and stricter approach by default.
@@ -327,7 +335,7 @@ route('users.show', {user: 'test/test'}); // throws
 Please consult the [contribution guide](CONTRIBUTING.md).
 
 ## Credits
-- This package is heavily inspired by the excellent and feature-rich [Ziggy](https://github.com/tighten/ziggy) by [Tighten.co](https://tighten.com/). Shout out to them.
+- This package is heavily inspired by the excellent and feature-rich [Ziggy](https://github.com/tighten/ziggy) by [Tighten](https://tighten.com/). Shout out to them.
 - [Saad Sidqui](https://github.com/saadsidqui)
 - [All the contributors](https://github.com/spatian-dev/ziglite/graphs/contributors)
 
