@@ -185,6 +185,8 @@
             function toggleTheme(evt) {
                 const theme = document.documentElement.dataset.theme == 'dark' ? 'light' : 'dark';
                 document.documentElement.dataset.theme = theme;
+                if (localStorage)
+                    localStorage.setItem('color-theme', theme);
             }
 
             if (localStorage) {
