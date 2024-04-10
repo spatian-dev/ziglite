@@ -11,6 +11,8 @@ lerna-debug.log*
 vendor/
 composer.lock
 
+.pages/index.html
+
 .env
 
 phpunit.xml
