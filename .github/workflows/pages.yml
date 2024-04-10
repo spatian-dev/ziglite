@@ -27,6 +27,7 @@ jobs:
           cache: "yarn"
       - run: yarn
       - run: node .pages/make.js
+      - run: find .pages ! -name 'index.html' -type f -exec rm -f {} +
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
