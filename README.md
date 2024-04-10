@@ -61,8 +61,8 @@ route('users.update', {user: 5});
 
 | Laravel | Supported          |
 | ------- | ------------------ |
-| 10.x	  | :white_check_mark: |
-| 11.x	  | :white_check_mark: |
+| 10.x	  | ✅                 |
+| 11.x	  | ✅                 | 
 
 ## Why Ziglite?
 Ziglite is intended to be a simplified alternative to Ziggy. By omitting some of Ziggy's more advanced features, Ziglite offers a focused feature set aimed at ease of use. One notable difference is in filtering: Ziglite opts for a simplified and stricter approach by default.
@@ -77,7 +77,7 @@ If you have ideas or suggestions, please see [Contributing](#contributing).
 
 ## Usage in a Package
 Register Ziglite's service provider inside the `register()` method of your package's service provider:
-```PHP
+```php
 $this->app->register(\Spatian\Ziglite\Providers\ZigliteServiceProvider::class);
 ```
 You can then use the package the same way you would from a regular Laravel Application.
@@ -95,7 +95,7 @@ For example:
 - `home` will include the route named `home`
 
 You can provide as many inclusion or exclusion patterns as necessary
-```PHP
+```php
 use Spatian\Ziglite\Routes\Manifest;
 
 new Manifest(["*", "!admin.*", "!api.*"]);
@@ -110,7 +110,7 @@ The core of Ziglite revolves around the [`\Spatian\Ziglite\Routes\Manifest`](src
 ### Filters
 By default, a `Manifest` instance will only include named routes that match the provided filters. If no filters are provided, then no routes are included.\
 Filtering patterns can be provided as the first argument to the constructor. 
-```PHP
+```php
 use Spatian\Ziglite\Routes\Manifest;
 
 new Manifest(); // No routes included
@@ -122,7 +122,7 @@ See [Route filtering](#route-filtering) to learn more about filtering.
 
 ### Custom Origin
 You can specify a custom origin to be included in the manifest.
-```PHP
+```php
 use Spatian\Ziglite\Routes\Manifest;
 
 new Manifest(base: 'https://example.test');
@@ -131,7 +131,7 @@ new Manifest(base: 'https://example.test');
 ### Caching
 The `Manifest` class caches previously generated manifests for the duration of a request. Subsequent calls with the same filtering patterns simply return the previously calculated result.\
 If this is not desirable, you can clear this cache using :
-```PHP
+```php
 use Spatian\Ziglite\Routes\Manifest;
 
 Manifest::clearRoutes();
@@ -139,7 +139,7 @@ Manifest::clearRoutes();
 
 ### Serializing to JSON
 The `Manifest` class implements [`JsonSerializable`](https://www.php.net/manual/en/class.jsonserializable.php) and a `toJson()` function to simplify serializing to JSON.
-```PHP
+```php
 use Spatian\Ziglite\Routes\Manifest;
 
 json_encode(new Manifest());
@@ -150,7 +150,7 @@ json_encode(new Manifest());
 By default, Ziglite defines a `@ziglite` blade directive. This directive uses the default [`JavascriptDataTagGenerator`](src/Generators/JavascriptDataTagGenerator.php) to include a manifest as a JSON object in a blade.\
 The JSON object is assigned to a `ziglite_data` variable on the `window` global.
 
-```PHP
+```php
 // home.blade.php
 @ziglite("*")
 ```
@@ -171,7 +171,7 @@ console.log(ziglite_data);
 ### Custom Directives and Custom Generators
 You can define your custom generators by implementing the [`OutputGeneratorInterface`](src/Interfaces/OutputGeneratorInterface.php). This requires implementing a `make()` function that generates the output as a string.
 
-```PHP
+```php
 make(array|string $filters = [], string $base = null, string $nonce = ''): string
 ```
 
@@ -180,7 +180,7 @@ make(array|string $filters = [], string $base = null, string $nonce = ''): strin
 - `$nonce` a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) nonce to be included in the output.
 
 You can also define a custom blade directive that uses your custom generator. In your `AppServiceProvider`:
-```PHP
+```php
 app('ziglite')->setupBladeDirective('mydirective', new MyCustomOutputGenerator());
 ```
 

@@ -35,6 +35,8 @@
         "@types/qs": "^6.9.14",
         "eslint": "^8.57.0",
         "husky": "^9.0.11",
+        "marked": "^12.0.1",
+        "marked-base-url": "^1.1.3",
         "rimraf": "^5.0.5",
         "typescript": "^5.4.3",
         "typescript-eslint": "^7.3.1",
