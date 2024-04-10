@@ -11,7 +11,7 @@ lerna-debug.log*
 vendor/
 composer.lock
 
-.pages/index.html
+.pages/static/index.html
 
 .env
 

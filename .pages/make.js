@@ -14,6 +14,7 @@ const readme = fs.readFileSync(relative_path('../README.md'), 'utf8');
 const renderer = {
     heading(text, level) {
         const anchor = text.toLowerCase()
+            .replace(/<\/?code>/g, '')
             .replace(/[!?]+/g, '')
             .trim()
             .replace(/[^\w]+/g, '-')
@@ -37,4 +38,5 @@ marked.use(
 
 const compiled = marked.parse(readme).replace(/^<h1.+>.*<\/h1>/, '');
 
-fs.writeFileSync(relative_path('index.html'), template.replace('%%content%%', compiled));
+fs.mkdirSync(relative_path('./static'), {recursive: true});
+fs.writeFileSync(relative_path('./static/index.html'), template.replace('%%content%%', compiled));
