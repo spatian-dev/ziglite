@@ -25,7 +25,7 @@
                 display: none;
             }
 
-            header {
+            body>header {
                 border-bottom: var(--pico-border-width) solid var(--pico-muted-border-color);
                 box-shadow: var(--pico-card-box-shadow);
 
@@ -64,8 +64,14 @@
                 }
             }
 
-            footer {
+            body>main {
+                margin: calc(var(--pico-spacing) * 1.5) 0;
+            }
+
+            body>footer {
+                padding: calc(var(--pico-spacing) * 1.5) 0;
                 text-align: center;
+                color: var(--pico-muted-color);
             }
         </style>
     </head>
@@ -124,7 +130,7 @@
         </main>
 
         <footer class="container">
-            Made with ❤️ in 🇲🇦 — <a href="https://spatian.dev" target="_blank">Spatie.dev</a>
+            Made with ❤️ from 🇲🇦 — <a href="https://spatian.dev" target="_blank">Spatian.dev</a>
         </footer>
 
         <script>

@@ -35,6 +35,6 @@ marked.use(
     baseUrl(`https://github.com/spatian-dev/ziglite/blob/${current_branch}/`)
 );
 
-const compiled = marked.parse(readme);
+const compiled = marked.parse(readme).replace(/^<h1.+>.*<\/h1>/, '');
 
 fs.writeFileSync(relative_path('index.html'), template.replace('%%content%%', compiled));
